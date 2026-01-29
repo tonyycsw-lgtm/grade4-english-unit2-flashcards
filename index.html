@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Writing Practice | Unit 2: The robot postman</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Georgia', 'Times New Roman', 'Microsoft JhengHei', serif;
+        }
+        
+        body { 
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh; 
+            padding: 30px 20px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            color: #2d3748;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        h1 {
+            font-size: 34px;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #718096;
+            font-weight: 400;
+        }
+        
+        .stats-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .stats-title {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-title i {
+            color: #4299e1;
+        }
+        
+        .stats-tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 25px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #1e40af;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stats-content {
+            min-height: 180px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+        
+        .stat-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        
+        .stat-label {
+            font-size: 15px;
+            color: #718096;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: #4299e1;
+            border-radius: 2px;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 22px;
+        }
+        
+        #words-cards .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 22px;
+        }
+        
+        #sentences-cards .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 22px;
+        }
+        
+        .card-container {
+            height: 235px;
+            perspective: 1500px;
+        }
+        
+        #sentences-cards .card-container {
+            height: 280px;
+            position: relative;
+        }
+        
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+            border-radius: 18px;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 
+                0 15px 35px rgba(50, 50, 93, 0.1),
+                0 5px 15px rgba(0, 0, 0, 0.07),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: visible !important;
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .sentence-card .card-front {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .card-back {
+            background: white;
+            transform: rotateY(180deg);
+        }
+        
+        .card-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        
+        .card-back .card-number {
+            color: #a0aec0;
+        }
+        
+        .card-content {
+            text-align: center;
+            width: 100%;
+            margin: 10px 0;
+            padding: 0 15px;
+            overflow: hidden;
+        }
+        
+        .card-front .card-content {
+            color: white;
+        }
+        
+        .answer-text {
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+        
+        .card-back .answer-text {
+            color: #1a365d;
+        }
+        
+        .translation-text {
+            font-size: 18px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+        
+        .card-back .translation-text {
+            color: #718096;
+        }
+        
+        .sentence-card .translation-text {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .traditional-chinese {
+            display: none;
+        }
+        
+        .hint-text {
+            font-size: 16px;
+            color: #a0aec0;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .warn-text {
+            display: none;
+        }
+        
+        .stars-container {
+            display: flex;
+            gap: 6px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .star {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.4);
+            user-select: none;
+        }
+        
+        .star.active {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+        
+        .stars-label {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 4px;
+            text-align: center;
+        }
+        
+        .audio-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .audio-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .audio-btn.playing {
+            background: rgba(255, 255, 255, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .audio-btn i {
+            color: white;
+            font-size: 18px;
+        }
+        
+        .slow-btn {
+            background: rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+                
+        .slow-btn i {
+            font-size: 18px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05); /* 懸停時輕微放大，增加靈動感 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .action-btn:active {
+            transform: translateY(-1px) scale(0.92); /* 點擊時縮小，營造高級時尚的按壓感 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s; /* 點擊反應更迅速 */
+        }
+        
+        /* 改良：移除禁用感，保持外觀一致，僅改變鼠標樣式 */
+        .action-btn:disabled {
+            opacity: 1 !important; /* 保持 100% 透明度，不變灰 */
+            cursor: default; /* 移除禁止符號，更顯高級 */
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .correct-btn {
+            background: #38a169; /* 初始即使用深綠色 Active 狀態 */
+            opacity: 1 !important;
+        }
+        
+        .correct-btn:hover:not(:disabled) {
+            background: #38a169; /* 懸停顏色不變 */
+            opacity: 1 !important;
+        }
+        
+        .correct-btn:active:not(:disabled) {
+            background: #38a169; /* 點擊顏色不變 */
+            opacity: 1 !important;
+        }
+        
+        .review-btn {
+            background: #e53e3e; /* 初始即使用深紅色 Active 狀態 */
+            opacity: 1 !important;
+        }
+        
+        .review-btn:hover:not(:disabled) {
+            background: #e53e3e; /* 懸停顏色不變 */
+            opacity: 1 !important;
+        }
+
+        .review-btn:active:not(:disabled) {
+            background: #e53e3e; /* 點擊顏色不變 */
+            opacity: 1 !important;
+        }
+        
+        .action-btn i {
+            color: white;
+            font-size: 20px;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        
+        .flip-hint {
+            display: none;
+        }
+        
+        .cards-section {
+            display: none;
+        }
+        
+        .cards-section.active {
+            display: block;
+        }
+        
+        .stat-item.hidden {
+            display: none;
+        }
+        
+        .reset-button {
+            background: #e53e3e; /* 初始即使用深色 Active 狀態顏色 */
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* 僅對變換效果進行過渡 */
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            float: right;
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2); /* 初始即帶有陰影 */
+            opacity: 1 !important; /* 確保透明度始終為 1 */
+        }
+        
+        .reset-button:hover {
+            background: #e53e3e;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 15px rgba(229, 62, 62, 0.3);
+            opacity: 1 !important;
+        }
+        
+        .reset-button:active {
+            background: #e53e3e;
+            transform: translateY(0) scale(0.95); /* 高級按壓縮放 */
+            box-shadow: 0 2px 5px rgba(229, 62, 62, 0.2);
+            transition: transform 0.1s;
+            opacity: 1 !important;
+        }
+        
+        .slow-audio-progress {
+            position: absolute;
+            bottom: 18px;
+            left: 5px;
+            right: 5px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            display: block !important;
+            visibility: visible !important;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .slow-audio-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffeb3b, #4caf50);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .slow-audio-progress-text {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: white;
+            font-weight: 600;
+            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1px 6px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 11;
+            backdrop-filter: blur(5px);
+        }
+        
+        @media (max-width: 1200px) {
+            #sentences-cards .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            }
+            
+            #words-cards .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+            
+            #sentences-cards .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #words-cards .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #sentences-cards .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-container {
+                height: 225px;
+            }
+            
+            #sentences-cards .card-container {
+                height: 270px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-value {
+                font-size: 26px;
+            }
+            
+            .answer-text {
+                font-size: 20px;
+            }
+            
+            .translation-text {
+                font-size: 17px;
+            }
+            
+            .sentence-card .translation-text {
+                font-size: 19px;
+            }
+            
+            .tab-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+            
+            .reset-button {
+                padding: 6px 16px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-container {
+                height: 235px;
+            }
+            
+            #sentences-cards .card-container {
+                height: 280px;
+            }
+            
+            .audio-btn {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .action-btn {
+                width: 46px;
+                height: 46px;
+            }
+            
+            .action-btn i {
+                font-size: 18px;
+            }
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: #a0aec0;
+            font-size: 15px;
+            width: 100%;
+        }
+        
+        .data-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            background: #48bb78;
+        }
+        
+        .data-status.saving {
+            background: #ed8936;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+        
+        .pronunciation-notice {
+            font-size: 12px;
+            color: #4a5568;
+            text-align: center;
+            margin-top: 5px;
+            font-style: italic;
+            background: rgba(66, 153, 225, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .stat-help {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 4px;
+        }
+        
+        .stat-category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>English Dictation Practice</h1>
+            <div class="subtitle" id="unit-title">Unit 5: The World of Gadgets</div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stats-title">
+                <i class="fas fa-chart-bar"></i> Progress Overview
+                <span class="data-status" id="data-status"></span>
+            </div>
+            
+            <div class="stats-tabs">
+                <button class="tab-btn active" onclick="showTab('words')">
+                    <i class="fas fa-font"></i> Words
+                </button>
+                <button class="tab-btn" onclick="showTab('sentences')">
+                    <i class="fas fa-align-left"></i> Sentences
+                </button>
+            </div>
+            
+            <div class="stats-content">
+                <div class="tab-content active" id="words-stats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="total-words">10</div>
+                                <div class="stat-label">全部詞彙</div>
+                                <div class="stat-help">固定總數</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="mastered-words">0</div>
+                                <div class="stat-label">熟練的詞彙</div>
+                                <div class="stat-help">5顆星完全掌握</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="review-words">10</div>
+                                <div class="stat-label">溫習中</div>
+                                <div class="stat-help">0-4顆星</div>
+                            </div>
+                        </div>
+                        <div class="stat-item hidden" id="sentences-stat1">
+                            <div class="stat-category">
+                                <div class="stat-value" id="total-sentences-words-tab">6</div>
+                                <div class="stat-label">全部句子</div>
+                                <div class="stat-help">固定總數</div>
+                            </div>
+                        </div>
+                        <div class="stat-item hidden" id="sentences-stat2">
+                            <div class="stat-category">
+                                <div class="stat-value" id="mastered-sentences-words-tab">0</div>
+                                <div class="stat-label">熟練的句子</div>
+                                <div class="stat-help">5顆星完全掌握</div>
+                            </div>
+                        </div>
+                        <div class="stat-item hidden" id="sentences-stat3">
+                            <div class="stat-category">
+                                <div class="stat-value" id="review-sentences-words-tab">6</div>
+                                <div class="stat-label">溫習中</div>
+                                <div class="stat-help">0-4顆星</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="sentences-stats">
+                    <div class="stats-grid">
+                        <div class="stat-item hidden" id="words-stat1">
+                            <div class="stat-category">
+                                <div class="stat-value" id="total-words2">10</div>
+                                <div class="stat-label">全部詞彙</div>
+                                <div class="stat-help">固定總數</div>
+                            </div>
+                        </div>
+                        <div class="stat-item hidden" id="words-stat2">
+                            <div class="stat-category">
+                                <div class="stat-value" id="mastered-words2">0</div>
+                                <div class="stat-label">熟練的詞彙</div>
+                                <div class="stat-help">5顆星完全掌握</div>
+                            </div>
+                        </div>
+                        <div class="stat-item hidden" id="words-stat3">
+                            <div class="stat-category">
+                                <div class="stat-value" id="review-words2">10</div>
+                                <div class="stat-label">溫習中</div>
+                                <div class="stat-help">0-4顆星</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="total-sentences-sentences-tab">6</div>
+                                <div class="stat-label">全部句子</div>
+                                <div class="stat-help">固定總數</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="mastered-sentences-sentences-tab">0</div>
+                                <div class="stat-label">熟練的句子</div>
+                                <div class="stat-help">5顆星完全掌握</div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-category">
+                                <div class="stat-value" id="review-sentences-sentences-tab">6</div>
+                                <div class="stat-label">溫習中</div>
+                                <div class="stat-help">0-4顆星</div>
+                            </div>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section cards-section active" id="words-cards">
+            <div class="section-title">高頻詞彙
+                <button class="reset-button" onclick="resetCurrentTabData(event)">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>
+            <div class="cards-grid" id="words-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 載入單詞中...
+                </div>
+            </div>
+        </div>
+        
+        <div class="section cards-section" id="sentences-cards">
+            <div class="section-title">句子讀默
+                <button class="reset-button" onclick="resetCurrentTabData(event)">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>     
+            <div class="cards-grid" id="sentences-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 載入句子中...
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            English Writing Practice Platform © 2023 | 優先本地音頻，失敗時使用英式發音
+        </div>
+    </div>
+
+    <script>
+        // === 英式發音生成函數 ===
+        function generateBritishAudioURL(text) {
+            return `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-GB&client=tw-ob&q=${encodeURIComponent(text)}`;
+        }
+
+        // === 本地音優先播放器 ===
+        class AudioPlayer {
+            constructor() {
+                this.currentAudio = null;
+                this.currentAudioBtn = null;
+                this.localAudioPaths = {
+                    // 單詞
+                    'short': './audio/short.mp3',
+                    'new': './audio/new.mp3',
+                    'fun': './audio/fun.mp3',
+                    'less': './audio/less.mp3',
+                    'long': './audio/long.mp3',
+                    'small': './audio/small.mp3',
+                    'more': './audio/more.mp3',
+                    'photos': './audio/photos.mp3',
+                    'best': './audio/best.mp3',
+                    'movies': './audio/movies.mp3',
+                    
+                    // 句子
+                    'sentence1': './audio/sentence1.mp3',
+                    'sentence2': './audio/sentence2.mp3',
+                    'sentence3': './audio/sentence3.mp3',
+                    'sentence4': './audio/sentence4.mp3',
+                    'sentence5': './audio/sentence5.mp3',
+                    'sentence6': './audio/sentence6.mp3'
+                };
+                
+                // 慢速音頻
+                this.slowAudioPaths = {
+                    'sentence1': [
+                        './audio/slow_sentence1-1.mp3',
+                        './audio/slow_sentence1-2.mp3',
+                        './audio/slow_sentence1-3.mp3',
+                        './audio/slow_sentence1-4.mp3',
+                        './audio/slow_sentence1-5.mp3'
+                    ],
+                    'sentence2': [
+                        './audio/slow_sentence2-1.mp3',
+                        './audio/slow_sentence2-2.mp3',
+                        './audio/slow_sentence2-3.mp3',
+                        './audio/slow_sentence2-4.mp3',
+                        './audio/slow_sentence2-5.mp3'
+                    ],
+                    'sentence3': [
+                        './audio/slow_sentence3-1.mp3',
+                        './audio/slow_sentence3-2.mp3',
+                        './audio/slow_sentence3-3.mp3',
+                        './audio/slow_sentence3-4.mp3',
+                        './audio/slow_sentence3-5.mp3'
+                    ],
+                    'sentence4': [
+                        './audio/slow_sentence4-1.mp3',
+                        './audio/slow_sentence4-2.mp3',
+                        './audio/slow_sentence4-3.mp3',
+                        './audio/slow_sentence4-4.mp3',
+                        './audio/slow_sentence4-5.mp3'
+                    ],
+                    'sentence5': [
+                        './audio/slow_sentence5-1.mp3',
+                        './audio/slow_sentence5-2.mp3',
+                        './audio/slow_sentence5-3.mp3',
+                        './audio/slow_sentence5-4.mp3',
+                        './audio/slow_sentence5-5.mp3'
+                    ],
+                    'sentence6': [
+                        './audio/slow_sentence6-1.mp3',
+                        './audio/slow_sentence6-2.mp3',
+                        './audio/slow_sentence6-3.mp3',
+                        './audio/slow_sentence6-4.mp3',
+                        './audio/slow_sentence6-5.mp3'
+                    ]
+                };
+            }
+            
+            // 停止當前音頻
+            stopCurrentAudio() {
+                if (this.currentAudio) {
+                    this.currentAudio.pause();
+                    this.currentAudio.currentTime = 0;
+                    
+                    if (this.currentAudioBtn) {
+                        this.currentAudioBtn.classList.remove('playing');
+                        if (this.currentAudioBtn.classList.contains('slow-btn')) {
+                            resetProgressBar(this.currentAudioBtn);
+                        }
+                    }
+                    
+                    this.currentAudio = null;
+                    this.currentAudioBtn = null;
+                }
+            }
+            
+            // 嘗試播放本地音頻，失敗時回退到TTS
+            playAudio(audioKey, btn, event) {
+                stopPropagation(event);
+                this.stopCurrentAudio();
+                
+                document.querySelectorAll('.slow-btn').forEach(slowBtn => {
+                    if (slowBtn.classList.contains('playing')) {
+                        slowBtn.classList.remove('playing');
+                        resetProgressBar(slowBtn);
+                    }
+                });
+                
+                // 優先嘗試本地音頻
+                const localPath = this.localAudioPaths[audioKey];
+                const ttsAudio = appData.audio_files[audioKey];
+                
+                // 如果沒有本地路徑，直接使用TTS
+                if (!localPath) {
+                    this.playTTSAudio(ttsAudio, btn);
+                    return;
+                }
+                
+                this.currentAudio = new Audio();
+                this.currentAudioBtn = btn;
+                btn.classList.add('playing');
+                
+                // 先嘗試本地音頻
+                this.currentAudio.src = localPath;
+                
+                this.currentAudio.oncanplaythrough = () => {
+                    this.currentAudio.play().catch(e => {
+                        console.log('Local audio playback failed, trying TTS:', e);
+                        // 本地播放失敗，嘗試TTS
+                        if (ttsAudio) {
+                            this.currentAudio.src = ttsAudio;
+                            this.currentAudio.play().catch(e2 => {
+                                console.log('TTS audio playback also failed:', e2);
+                                btn.classList.remove('playing');
+                                this.currentAudio = null;
+                                this.currentAudioBtn = null;
+                            });
+                        } else {
+                            btn.classList.remove('playing');
+                            this.currentAudio = null;
+                            this.currentAudioBtn = null;
+                        }
+                    });
+                };
+                
+                this.currentAudio.onerror = () => {
+                    console.log('Local audio loading failed, trying TTS for:', audioKey);
+                    // 本地加載失敗，嘗試TTS
+                    if (ttsAudio) {
+                        this.currentAudio.src = ttsAudio;
+                        this.currentAudio.oncanplaythrough = () => {
+                            this.currentAudio.play().catch(e => {
+                                console.log('TTS audio playback failed:', e);
+                                btn.classList.remove('playing');
+                                this.currentAudio = null;
+                                this.currentAudioBtn = null;
+                            });
+                        };
+                    } else {
+                        btn.classList.remove('playing');
+                        this.currentAudio = null;
+                        this.currentAudioBtn = null;
+                    }
+                };
+                
+                this.currentAudio.onended = () => {
+                    btn.classList.remove('playing');
+                    this.currentAudio = null;
+                    this.currentAudioBtn = null;
+                };
+            }
+            
+            // 直接播放TTS音頻（備用）
+            playTTSAudio(ttsUrl, btn) {
+                if (!ttsUrl) return;
+                
+                this.currentAudio = new Audio(ttsUrl);
+                this.currentAudioBtn = btn;
+                btn.classList.add('playing');
+                
+                this.currentAudio.oncanplaythrough = () => {
+                    this.currentAudio.play().catch(e => {
+                        console.log('TTS audio playback failed:', e);
+                        btn.classList.remove('playing');
+                        this.currentAudio = null;
+                        this.currentAudioBtn = null;
+                    });
+                };
+                
+                this.currentAudio.onerror = () => {
+                    btn.classList.remove('playing');
+                    this.currentAudio = null;
+                    this.currentAudioBtn = null;
+                };
+                
+                this.currentAudio.onended = () => {
+                    btn.classList.remove('playing');
+                    this.currentAudio = null;
+                    this.currentAudioBtn = null;
+                };
+            }
+            
+            // 播放慢速音頻（優先本地）
+            playSequentialSlowAudio(sentenceKey, btn, event) {
+                stopPropagation(event);
+                
+                const sentenceCard = btn.closest('.sentence-card');
+                if (sentenceCard) {
+                    const progressContainer = sentenceCard.querySelector('.slow-audio-progress');
+                    if (progressContainer) {
+                        progressContainer.style.display = 'block';
+                        progressContainer.style.visibility = 'visible';
+                    }
+                }
+                
+                if (this.currentAudioBtn === btn && this.currentAudio) {
+                    this.stopCurrentAudio();
+                    resetProgressBar(btn);
+                    return;
+                }
+                
+                // 檢查是否有慢速音頻
+                const localSlowAudio = this.slowAudioPaths[sentenceKey];
+                const ttsSlowAudio = appData.slow_audio_files[sentenceKey];
+                
+                if ((!localSlowAudio || localSlowAudio.length === 0) && 
+                    (!ttsSlowAudio || ttsSlowAudio.length === 0)) {
+                    console.error('No slow audio files found for', sentenceKey);
+                    return;
+                }
+                
+                const currentIndex = slowAudioCurrentIndex[sentenceKey] || 0;
+                const totalParts = Math.max(
+                    localSlowAudio ? localSlowAudio.length : 0,
+                    ttsSlowAudio ? ttsSlowAudio.length : 0
+                );
+                
+                if (currentIndex >= totalParts) {
+                    slowAudioCurrentIndex[sentenceKey] = 0;
+                    resetProgressBar(btn);
+                    this.playSequentialSlowAudio(sentenceKey, btn, event);
+                    return;
+                }
+                
+                // 優先使用本地慢速音頻，失敗時使用TTS
+                const localAudioFile = localSlowAudio ? localSlowAudio[currentIndex] : null;
+                const ttsAudioFile = ttsSlowAudio ? ttsSlowAudio[currentIndex] : null;
+                
+                this.stopCurrentAudio();
+                
+                this.currentAudio = new Audio();
+                this.currentAudioBtn = btn;
+                
+                updateProgressBar(btn, currentIndex, totalParts);
+                
+                const icon = btn.querySelector('i');
+                icon.className = 'fas fa-pause';
+                btn.classList.add('playing');
+                
+                // 先嘗試本地音頻
+                if (localAudioFile) {
+                    this.currentAudio.src = localAudioFile;
+                } else if (ttsAudioFile) {
+                    this.currentAudio.src = ttsAudioFile;
+                } else {
+                    console.error('No audio file available for index', currentIndex);
+                    return;
+                }
+                
+                this.currentAudio.oncanplaythrough = () => {
+                    this.currentAudio.play().catch(e => {
+                        console.log('Slow audio playback failed:', e);
+                        // 如果本地音頻失敗且存在TTS備用，嘗試TTS
+                        if (localAudioFile && ttsAudioFile) {
+                            this.currentAudio.src = ttsAudioFile;
+                            this.currentAudio.play().catch(e2 => {
+                                console.log('TTS slow audio also failed:', e2);
+                                btn.classList.remove('playing');
+                                icon.className = 'fas fa-play';
+                                resetProgressBar(btn);
+                            });
+                        } else {
+                            btn.classList.remove('playing');
+                            icon.className = 'fas fa-play';
+                            resetProgressBar(btn);
+                        }
+                    });
+                };
+                
+                this.currentAudio.onerror = () => {
+                    // 本地音頻加載失敗，嘗試TTS（如果存在）
+                    if (localAudioFile && ttsAudioFile) {
+                        this.currentAudio.src = ttsAudioFile;
+                        this.currentAudio.oncanplaythrough = () => {
+                            this.currentAudio.play().catch(e => {
+                                console.log('TTS slow audio playback failed:', e);
+                                btn.classList.remove('playing');
+                                icon.className = 'fas fa-play';
+                                resetProgressBar(btn);
+                            });
+                        };
+                    } else {
+                        btn.classList.remove('playing');
+                        icon.className = 'fas fa-play';
+                        resetProgressBar(btn);
+                    }
+                };
+                
+                this.currentAudio.onended = () => {
+                    btn.classList.remove('playing');
+                    
+                    slowAudioCurrentIndex[sentenceKey] = (slowAudioCurrentIndex[sentenceKey] || 0) + 1;
+                    
+                    if (slowAudioCurrentIndex[sentenceKey] < totalParts) {
+                        icon.className = 'fas fa-play';
+                        
+                        setTimeout(() => {
+                            updateProgressBar(btn, slowAudioCurrentIndex[sentenceKey], totalParts);
+                            this.playSequentialSlowAudio(sentenceKey, btn, event);
+                        }, 500);
+                    } else {
+                        slowAudioCurrentIndex[sentenceKey] = 0;
+                        icon.className = 'fas fa-play';
+                        resetProgressBar(btn);
+                        this.currentAudio = null;
+                        this.currentAudioBtn = null;
+                    }
+                };
+            }
+        }
+
+        // === 嵌入的默書數據 ===
+                const appData = {
+            "unit_title": "Unit 2: The robot postman",
+            "words": [
+                {
+                                "id": "word1",
+                                "english": "postman",
+                                "translation": "郵差",
+                                "hint": "noun",
+                                "audio": "postman"
+                },
+                {
+                                "id": "word2",
+                                "english": "robot",
+                                "translation": "機器人",
+                                "hint": "noun",
+                                "audio": "robot"
+                },
+                {
+                                "id": "word3",
+                                "english": "letter",
+                                "translation": "信件",
+                                "hint": "noun",
+                                "audio": "letter"
+                },
+                {
+                                "id": "word4",
+                                "english": "parcel",
+                                "translation": "包裹",
+                                "hint": "noun",
+                                "audio": "parcel"
+                },
+                {
+                                "id": "word5",
+                                "english": "bank",
+                                "translation": "銀行",
+                                "hint": "noun",
+                                "audio": "bank"
+                },
+                {
+                                "id": "word6",
+                                "english": "hospital",
+                                "translation": "醫院",
+                                "hint": "noun",
+                                "audio": "hospital"
+                },
+                {
+                                "id": "word7",
+                                "english": "tourist",
+                                "translation": "遊客",
+                                "hint": "noun",
+                                "audio": "tourist"
+                },
+                {
+                                "id": "word8",
+                                "english": "police station",
+                                "translation": "警察局",
+                                "hint": "noun",
+                                "audio": "police_station"
+                },
+                {
+                                "id": "word9",
+                                "english": "fire station",
+                                "translation": "消防局",
+                                "hint": "noun",
+                                "audio": "fire_station"
+                },
+                {
+                                "id": "word10",
+                                "english": "sports centre",
+                                "translation": "體育中心",
+                                "hint": "noun",
+                                "audio": "sports_centre"
+                },
+                {
+                                "id": "word11",
+                                "english": "fountain",
+                                "translation": "噴泉",
+                                "hint": "noun",
+                                "audio": "fountain"
+                },
+                {
+                                "id": "word12",
+                                "english": "subway",
+                                "translation": "地鐵",
+                                "hint": "noun",
+                                "audio": "subway"
+                },
+                {
+                                "id": "word13",
+                                "english": "deliver",
+                                "translation": "遞送",
+                                "hint": "verb",
+                                "audio": "deliver"
+                },
+                {
+                                "id": "word14",
+                                "english": "walk",
+                                "translation": "走路",
+                                "hint": "verb",
+                                "audio": "walk"
+                },
+                {
+                                "id": "word15",
+                                "english": "turn",
+                                "translation": "轉彎",
+                                "hint": "verb",
+                                "audio": "turn"
+                },
+                {
+                                "id": "word16",
+                                "english": "go across",
+                                "translation": "橫過",
+                                "hint": "verb",
+                                "audio": "go_across"
+                },
+                {
+                                "id": "word17",
+                                "english": "walk through",
+                                "translation": "穿過",
+                                "hint": "verb",
+                                "audio": "walk_through"
+                },
+                {
+                                "id": "word18",
+                                "english": "straight",
+                                "translation": "筆直地",
+                                "hint": "adverb",
+                                "audio": "straight"
+                },
+                {
+                                "id": "word19",
+                                "english": "opposite",
+                                "translation": "在...對面",
+                                "hint": "preposition",
+                                "audio": "opposite"
+                },
+                {
+                                "id": "word20",
+                                "english": "left",
+                                "translation": "左邊",
+                                "hint": "noun/adjective",
+                                "audio": "left"
+                },
+                {
+                                "id": "word21",
+                                "english": "right",
+                                "translation": "右邊",
+                                "hint": "noun/adjective",
+                                "audio": "right"
+                }
+],
+            "sentences": [
+                {
+                                "id": "sent1",
+                                "english": "Bobo is a robot postman.",
+                                "translation": "Bobo 是一個機器人郵差。",
+                                "audio": "sentence1"
+                },
+                {
+                                "id": "sent2",
+                                "english": "He delivers letters and parcels to different places.",
+                                "translation": "他把信件和包裹送到不同的地方。",
+                                "audio": "sentence2"
+                },
+                {
+                                "id": "sent3",
+                                "english": "Yesterday was his first day at work.",
+                                "translation": "昨天是他第一天上班。",
+                                "audio": "sentence3"
+                },
+                {
+                                "id": "sent4",
+                                "english": "His mini computer showed him the way.",
+                                "translation": "他的迷你電腦給他指路。",
+                                "audio": "sentence4"
+                },
+                {
+                                "id": "sent5",
+                                "english": "Go across Tung Shan Street.",
+                                "translation": "橫過東山街。",
+                                "audio": "sentence5"
+                },
+                {
+                                "id": "sent6",
+                                "english": "Walk straight ahead along Shanghai Road.",
+                                "translation": "沿著上海道一直向前走。",
+                                "audio": "sentence6"
+                },
+                {
+                                "id": "sent7",
+                                "english": "NT Bank is opposite the hospital.",
+                                "translation": "NT 銀行在醫院對面。",
+                                "audio": "sentence7"
+                },
+                {
+                                "id": "sent8",
+                                "english": "Turn right at the NT Bank entrance.",
+                                "translation": "在 NT 銀行入口處右轉。",
+                                "audio": "sentence8"
+                },
+                {
+                                "id": "sent9",
+                                "english": "Walk past the fountain.",
+                                "translation": "走過噴泉。",
+                                "audio": "sentence9"
+                },
+                {
+                                "id": "sent10",
+                                "english": "Walk through the subway.",
+                                "translation": "穿過地鐵。",
+                                "audio": "sentence10"
+                },
+                {
+                                "id": "sent11",
+                                "english": "Hot Satay is on your right.",
+                                "translation": "Hot Satay 在你的右邊。",
+                                "audio": "sentence11"
+                },
+                {
+                                "id": "sent12",
+                                "english": "How can we get to the MTR station?",
+                                "translation": "我們怎樣去地鐵站？",
+                                "audio": "sentence12"
+                },
+                {
+                                "id": "sent13",
+                                "english": "Walk along Prince Edward Street.",
+                                "translation": "沿著太子道走。",
+                                "audio": "sentence13"
+                },
+                {
+                                "id": "sent14",
+                                "english": "Go past the police station.",
+                                "translation": "經過警察局。",
+                                "audio": "sentence14"
+                },
+                {
+                                "id": "sent15",
+                                "english": "Walk across the footbridge.",
+                                "translation": "走過行人天橋。",
+                                "audio": "sentence15"
+                },
+                {
+                                "id": "sent16",
+                                "english": "The MTR Station is in front of you.",
+                                "translation": "地鐵站就在你面前。",
+                                "audio": "sentence16"
+                },
+                {
+                                "id": "sent17",
+                                "english": "Could you please tell me the way to the sports centre?",
+                                "translation": "請問去體育中心怎麼走？",
+                                "audio": "sentence17"
+                },
+                {
+                                "id": "sent18",
+                                "english": "The sports centre is on your left.",
+                                "translation": "體育中心在你的左邊。",
+                                "audio": "sentence18"
+                }
+],
+            // === 備用TTS音頻文件 ===
+            "audio_files": {
+                "postman": generateBritishAudioURL("postman"),
+                "robot": generateBritishAudioURL("robot"),
+                "letter": generateBritishAudioURL("letter"),
+                "parcel": generateBritishAudioURL("parcel"),
+                "bank": generateBritishAudioURL("bank"),
+                "hospital": generateBritishAudioURL("hospital"),
+                "tourist": generateBritishAudioURL("tourist"),
+                "police_station": generateBritishAudioURL("police station"),
+                "fire_station": generateBritishAudioURL("fire station"),
+                "sports_centre": generateBritishAudioURL("sports centre"),
+                "fountain": generateBritishAudioURL("fountain"),
+                "subway": generateBritishAudioURL("subway"),
+                "deliver": generateBritishAudioURL("deliver"),
+                "walk": generateBritishAudioURL("walk"),
+                "turn": generateBritishAudioURL("turn"),
+                "go_across": generateBritishAudioURL("go across"),
+                "walk_through": generateBritishAudioURL("walk through"),
+                "straight": generateBritishAudioURL("straight"),
+                "opposite": generateBritishAudioURL("opposite"),
+                "left": generateBritishAudioURL("left"),
+                "right": generateBritishAudioURL("right"),
+                "sentence1": generateBritishAudioURL("Bobo is a robot postman"),
+                "sentence2": generateBritishAudioURL("He delivers letters and parcels to different places"),
+                "sentence3": generateBritishAudioURL("Yesterday was his first day at work"),
+                "sentence4": generateBritishAudioURL("His mini computer showed him the way"),
+                "sentence5": generateBritishAudioURL("Go across Tung Shan Street"),
+                "sentence6": generateBritishAudioURL("Walk straight ahead along Shanghai Road"),
+                "sentence7": generateBritishAudioURL("NT Bank is opposite the hospital"),
+                "sentence8": generateBritishAudioURL("Turn right at the NT Bank entrance"),
+                "sentence9": generateBritishAudioURL("Walk past the fountain"),
+                "sentence10": generateBritishAudioURL("Walk through the subway"),
+                "sentence11": generateBritishAudioURL("Hot Satay is on your right"),
+                "sentence12": generateBritishAudioURL("How can we get to the MTR station?"),
+                "sentence13": generateBritishAudioURL("Walk along Prince Edward Street"),
+                "sentence14": generateBritishAudioURL("Go past the police station"),
+                "sentence15": generateBritishAudioURL("Walk across the footbridge"),
+                "sentence16": generateBritishAudioURL("The MTR Station is in front of you"),
+                "sentence17": generateBritishAudioURL("Could you please tell me the way to the sports centre?"),
+                "sentence18": generateBritishAudioURL("The sports centre is on your left")
+            },
+            
+            // === 備用慢速TTS音頻 ===
+            "slow_audio_files": {
+                "sentence1": [
+                    generateBritishAudioURL("Bobo is"),
+                    generateBritishAudioURL("a robot postman"),
+                    generateBritishAudioURL("Bobo is a robot postman")
+                ],
+                "sentence2": [
+                    generateBritishAudioURL("He delivers letters and"),
+                    generateBritishAudioURL("parcels to different places"),
+                    generateBritishAudioURL("He delivers letters and parcels to different places")
+                ],
+                "sentence3": [
+                    generateBritishAudioURL("Yesterday was his"),
+                    generateBritishAudioURL("first day at work"),
+                    generateBritishAudioURL("Yesterday was his first day at work")
+                ],
+                "sentence4": [
+                    generateBritishAudioURL("His mini computer"),
+                    generateBritishAudioURL("showed him the way"),
+                    generateBritishAudioURL("His mini computer showed him the way")
+                ],
+                "sentence5": [
+                    generateBritishAudioURL("Go across"),
+                    generateBritishAudioURL("Tung Shan Street"),
+                    generateBritishAudioURL("Go across Tung Shan Street")
+                ],
+                "sentence6": [
+                    generateBritishAudioURL("Walk straight ahead"),
+                    generateBritishAudioURL("along Shanghai Road"),
+                    generateBritishAudioURL("Walk straight ahead along Shanghai Road")
+                ],
+                "sentence7": [
+                    generateBritishAudioURL("NT Bank is"),
+                    generateBritishAudioURL("opposite the hospital"),
+                    generateBritishAudioURL("NT Bank is opposite the hospital")
+                ],
+                "sentence8": [
+                    generateBritishAudioURL("Turn right at"),
+                    generateBritishAudioURL("the NT Bank entrance"),
+                    generateBritishAudioURL("Turn right at the NT Bank entrance")
+                ],
+                "sentence9": [
+                    generateBritishAudioURL("Walk past"),
+                    generateBritishAudioURL("the fountain"),
+                    generateBritishAudioURL("Walk past the fountain")
+                ],
+                "sentence10": [
+                    generateBritishAudioURL("Walk through"),
+                    generateBritishAudioURL("the subway"),
+                    generateBritishAudioURL("Walk through the subway")
+                ],
+                "sentence11": [
+                    generateBritishAudioURL("Hot Satay is"),
+                    generateBritishAudioURL("on your right"),
+                    generateBritishAudioURL("Hot Satay is on your right")
+                ],
+                "sentence12": [
+                    generateBritishAudioURL("How can we get"),
+                    generateBritishAudioURL("to the MTR station"),
+                    generateBritishAudioURL("How can we get to the MTR station")
+                ],
+                "sentence13": [
+                    generateBritishAudioURL("Walk along"),
+                    generateBritishAudioURL("Prince Edward Street"),
+                    generateBritishAudioURL("Walk along Prince Edward Street")
+                ],
+                "sentence14": [
+                    generateBritishAudioURL("Go past"),
+                    generateBritishAudioURL("the police station"),
+                    generateBritishAudioURL("Go past the police station")
+                ],
+                "sentence15": [
+                    generateBritishAudioURL("Walk across"),
+                    generateBritishAudioURL("the footbridge"),
+                    generateBritishAudioURL("Walk across the footbridge")
+                ],
+                "sentence16": [
+                    generateBritishAudioURL("The MTR Station is"),
+                    generateBritishAudioURL("in front of you"),
+                    generateBritishAudioURL("The MTR Station is in front of you")
+                ],
+                "sentence17": [
+                    generateBritishAudioURL("Could you please tell me"),
+                    generateBritishAudioURL("the way to the sports centre"),
+                    generateBritishAudioURL("Could you please tell me the way to the sports centre")
+                ],
+                "sentence18": [
+                    generateBritishAudioURL("The sports centre"),
+                    generateBritishAudioURL("is on your left"),
+                    generateBritishAudioURL("The sports centre is on your left")
+                ]
+            }
+        };
+
+        // === 全局變量和實例 ===
+        const audioPlayer = new AudioPlayer();
+        let starData = {};
+        const defaultStars = {};
+        const slowAudioCurrentIndex = {};
+
+        // === 輔助函數 ===
+        function stopPropagation(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
+
+        // === 卡片和星星管理 ===
+        function initStarData() {
+            const savedStarData = JSON.parse(localStorage.getItem('starData') || '{}');
+            const allIds = [];
+            appData.words.forEach(word => allIds.push(word.id));
+            appData.sentences.forEach(sentence => allIds.push(sentence.id));
+            
+            allIds.forEach(id => {
+                defaultStars[id] = 0;
+                starData[id] = savedStarData[id] || 0;
+            });
+        }
+        
+        function initSlowAudioIndex() {
+            appData.sentences.forEach(sentence => {
+                const audioKey = sentence.audio;
+                if (appData.slow_audio_files && appData.slow_audio_files[audioKey]) {
+                    slowAudioCurrentIndex[audioKey] = 0;
+                }
+            });
+        }
+        
+        // 生成單詞卡片
+        function generateWordCard(word, index) {
+            const number = `Word ${index + 1}`;
+            
+            return `
+                <div class="card-container">
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <div class="card-number">${number}</div>
+                            <div class="card-content">
+                                <div class="stars-container" id="${word.id}-stars"></div>
+                                <div class="stars-label" id="${word.id}-label">Click to flip</div>
+                            </div>
+                            <div class="audio-buttons">
+                                <button class="audio-btn" onclick="audioPlayer.playAudio('${word.audio}', this, event)">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-number">${number}</div>
+                            <div class="card-content">
+                                <div class="answer-text">${word.english}</div>
+                                <div class="translation-text">${word.translation}</div>
+                                ${word.hint ? `<div class="hint-text">${word.hint}</div>` : ''}
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn correct-btn" onclick="markCorrect('${word.id}', event)" disabled>
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="action-btn review-btn" onclick="markReview('${word.id}', event)" disabled>
+                                    <i class="fas fa-book"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 生成句子卡片
+        function generateSentenceCard(sentence, index) {
+            const number = `Sentence ${index + 1}`;
+            const hasSlowAudio = appData.slow_audio_files && appData.slow_audio_files[sentence.audio];
+            
+            return `
+                <div class="card-container sentence-card">
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="card-front">
+                            <div class="card-number">${number}</div>
+                            <div class="card-content">
+                                <div class="stars-container" id="${sentence.id}-stars"></div>
+                                <div class="stars-label" id="${sentence.id}-label">Click to flip</div>
+                            </div>
+                            <div class="audio-buttons">
+                                <button class="audio-btn" onclick="audioPlayer.playAudio('${sentence.audio}', this, event)">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                ${hasSlowAudio ? `
+                                <button class="audio-btn slow-btn" onclick="audioPlayer.playSequentialSlowAudio('${sentence.audio}', this, event)">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-number">${number}</div>
+                            <div class="card-content">
+                                <div class="answer-text">${sentence.english}</div>
+                                <div class="translation-text">${sentence.translation}</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-btn correct-btn" onclick="markCorrect('${sentence.id}', event)" disabled>
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="action-btn review-btn" onclick="markReview('${sentence.id}', event)" disabled>
+                                    <i class="fas fa-book"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 生成所有卡片
+        function generateCards() {
+            const wordsGrid = document.getElementById('words-grid');
+            if (wordsGrid && appData.words.length > 0) {
+                wordsGrid.innerHTML = appData.words.map((word, index) => 
+                    generateWordCard(word, index)
+                ).join('');
+            }
+            
+            const sentencesGrid = document.getElementById('sentences-grid');
+            if (sentencesGrid && appData.sentences.length > 0) {
+                sentencesGrid.innerHTML = appData.sentences.map((sentence, index) => 
+                    generateSentenceCard(sentence, index)
+                ).join('');
+            }
+            
+            // 更新統計數字（初始化時顯示總數）
+            updateStats();
+        }
+        
+        // 翻轉卡片
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+            
+            if (card.classList.contains('flipped')) {
+                const cardId = getCardId(card);
+                updateButtonsState(cardId);
+            } else {
+                const cardId = getCardId(card);
+                disableButtons(cardId);
+            }
+        }
+        
+        function getCardId(cardElement) {
+            const starsContainer = cardElement.querySelector('.stars-container');
+            if (starsContainer && starsContainer.id) {
+                return starsContainer.id.replace('-stars', '');
+            }
+            return null;
+        }
+        
+        // 更新按鈕狀態（根據星星數量）
+        function updateButtonsState(cardId) {
+            if (!cardId) return;
+            
+            const stars = starData[cardId] || 0;
+            const card = document.querySelector(`#${cardId}-stars`)?.closest('.flashcard');
+            if (!card) return;
+            
+            const correctBtn = card.querySelector('.correct-btn');
+            const reviewBtn = card.querySelector('.review-btn');
+            
+            // 根據星星數量啟用/禁用按鈕
+            if (correctBtn) {
+                correctBtn.disabled = (stars >= 5);
+            }
+            if (reviewBtn) {
+                reviewBtn.disabled = (stars <= 0);
+            }
+        }
+        
+        // 禁用所有按鈕（正面時）
+        function disableButtons(cardId) {
+            if (!cardId) return;
+            
+            const card = document.querySelector(`#${cardId}-stars`)?.closest('.flashcard');
+            if (card) {
+                const buttons = card.querySelectorAll('.action-btn');
+                buttons.forEach(btn => btn.disabled = true);
+            }
+        }
+        
+        // 更新進度條
+        function updateProgressBar(btn, currentIndex, totalParts) {
+            const sentenceCard = btn.closest('.sentence-card');
+            if (!sentenceCard) return;
+            
+            let progressContainer = sentenceCard.querySelector('.slow-audio-progress');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.className = 'slow-audio-progress';
+                
+                const progressFill = document.createElement('div');
+                progressFill.className = 'slow-audio-progress-fill';
+                
+                const progressText = document.createElement('div');
+                progressText.className = 'slow-audio-progress-text';
+                
+                progressContainer.appendChild(progressFill);
+                progressContainer.appendChild(progressText);
+                sentenceCard.appendChild(progressContainer);
+            }
+            
+            const progressPercentage = ((currentIndex + 1) / totalParts) * 100;
+            
+            const progressFill = progressContainer.querySelector('.slow-audio-progress-fill');
+            progressFill.style.width = `${progressPercentage}%`;
+            
+            const progressText = progressContainer.querySelector('.slow-audio-progress-text');
+            progressText.textContent = `${currentIndex + 1}/${totalParts}`;
+        }
+        
+        // 重置進度條
+        function resetProgressBar(btn) {
+            const sentenceCard = btn.closest('.sentence-card');
+            if (!sentenceCard) return;
+            
+            const progressContainer = sentenceCard.querySelector('.slow-audio-progress');
+            if (progressContainer) {
+                const progressFill = progressContainer.querySelector('.slow-audio-progress-fill');
+                progressFill.style.width = '0%';
+                
+                const progressText = progressContainer.querySelector('.slow-audio-progress-text');
+                progressText.textContent = '0/5';
+                
+                progressContainer.style.display = 'block';
+                progressContainer.style.visibility = 'visible';
+            }
+            
+            const icon = btn.querySelector('i');
+            if (icon && icon.className.includes('fa-pause')) {
+                icon.className = 'fas fa-play';
+            }
+        }
+        
+        // 創建星星顯示
+        function createStars(cardId, count) {
+            const container = document.getElementById(cardId + '-stars');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('div');
+                star.className = 'star' + (i < count ? ' active' : '');
+                star.innerHTML = '★';
+                container.appendChild(star);
+            }
+            
+            const label = document.getElementById(cardId + '-label');
+            if (label) {
+                if (count === 0) {
+                    label.textContent = '開始練習';
+                } else if (count < 3) {
+                    label.textContent = '繼續加油呀!';
+                } else if (count < 5) {
+                    label.textContent = '信心大增!';
+                } else {
+                    label.textContent = '真棒! 你已經掌握了';
+                }
+            }
+        }
+        
+        // 保存數據
+        function saveData() {
+            const status = document.getElementById('data-status');
+            status.classList.add('saving');
+            
+            localStorage.setItem('starData', JSON.stringify(starData));
+            
+            setTimeout(() => {
+                status.classList.remove('saving');
+            }, 500);
+        }
+        
+        // 標記為正確（修改：只禁用自己，不影響另一個按鈕）
+        function markCorrect(cardId, event) {
+            stopPropagation(event);
+            
+            if (starData[cardId] < 5) {
+                starData[cardId]++;
+                saveData();
+                createStars(cardId, starData[cardId]);
+                updateStats();
+                
+                // 只禁用被點擊的按鈕
+                const btn = event.target.closest('.correct-btn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.style.transform = 'scale(1.1)';
+                    setTimeout(() => { 
+                        btn.style.transform = '';
+                        // 重新檢查按鈕狀態
+                        updateButtonsState(cardId);
+                    }, 300);
+                }
+            }
+        }
+        
+        // 標記需要複習（修改：只禁用自己，不影響另一個按鈕）
+        function markReview(cardId, event) {
+            stopPropagation(event);
+            
+            if (starData[cardId] > 0) {
+                starData[cardId]--;
+                saveData();
+                createStars(cardId, starData[cardId]);
+                updateStats();
+                
+                // 只禁用被點擊的按鈕
+                const btn = event.target.closest('.review-btn');
+                if (btn) {
+                    btn.disabled = true;
+                    setTimeout(() => { 
+                        // 重新檢查按鈕狀態
+                        updateButtonsState(cardId);
+                    }, 300);
+                }
+            }
+        }
+        
+        // 分頁切換
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-stats').classList.add('active');
+            
+            document.querySelectorAll('.cards-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(tabName + '-cards').classList.add('active');
+            
+            updateStatsDisplay(tabName);
+        }
+        
+        // 更新統計顯示
+        function updateStatsDisplay(tabName) {
+            if (tabName === 'words') {
+                document.querySelectorAll('#words-stats .stat-item').forEach(item => {
+                    if (!item.id || !item.id.startsWith('sentences-')) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            } else if (tabName === 'sentences') {
+                document.querySelectorAll('#sentences-stats .stat-item').forEach(item => {
+                    if (!item.id || !item.id.startsWith('words-')) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            }
+        }
+        
+        // 更新統計數據
+        function updateStats() {
+            if (!appData) return;
+            
+            const wordIds = appData.words.map(word => word.id);
+            const sentenceIds = appData.sentences.map(sentence => sentence.id);
+            
+            // 單詞統計
+            const wordStars = wordIds.map(id => starData[id] || 0);
+            const totalWords = wordIds.length;
+            const masteredWords = wordStars.filter(v => v === 5).length;
+            const reviewWords = wordStars.filter(v => v < 5).length;
+            
+            // 句子統計
+            const sentenceStars = sentenceIds.map(id => starData[id] || 0);
+            const totalSentences = sentenceIds.length;
+            const masteredSentences = sentenceStars.filter(v => v === 5).length;
+            const reviewSentences = sentenceStars.filter(v => v < 5).length;
+            
+            // 更新所有單詞統計顯示
+            document.querySelectorAll('[id^="total-words"]').forEach(el => {
+                if (el.id === 'total-words' || el.id === 'total-words2') {
+                    el.textContent = totalWords;
+                }
+            });
+            
+            document.querySelectorAll('[id^="mastered-words"]').forEach(el => {
+                if (el.id === 'mastered-words' || el.id === 'mastered-words2') {
+                    el.textContent = masteredWords;
+                }
+            });
+            
+            document.querySelectorAll('[id^="review-words"]').forEach(el => {
+                if (el.id === 'review-words' || el.id === 'review-words2') {
+                    el.textContent = reviewWords;
+                }
+            });
+            
+            // 更新句子統計顯示
+            document.querySelectorAll('[id^="total-sentences-"]').forEach(el => {
+                el.textContent = totalSentences;
+            });
+
+            document.querySelectorAll('[id^="mastered-sentences-"]').forEach(el => {
+                el.textContent = masteredSentences;
+            });
+
+            document.querySelectorAll('[id^="review-sentences-"]').forEach(el => {
+                el.textContent = reviewSentences;
+            });
+        }
+        
+        // 重置當前分頁數據
+        function resetCurrentTabData(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            if (!appData) return;
+            
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (!activeTab) return;
+            
+            const tabText = activeTab.textContent.toLowerCase();
+            const isWordsTab = tabText.includes('words');
+            const isSentencesTab = tabText.includes('sentences');
+            
+            // 移除 JavaScript 中的點擊縮放和透明度變化效果
+            
+            if (isWordsTab) {
+                appData.words.forEach(word => {
+                    starData[word.id] = 0;
+                });
+                
+                saveData();
+                initPage();
+                
+                document.querySelectorAll('#words-cards .flashcard').forEach(card => {
+                    card.classList.remove('flipped');
+                    const cardId = getCardId(card);
+                    if (cardId) disableButtons(cardId);
+                });
+                
+            } else if (isSentencesTab) {
+                appData.sentences.forEach(sentence => {
+                    starData[sentence.id] = 0;
+                    
+                    const audioKey = sentence.audio;
+                    if (slowAudioCurrentIndex[audioKey] !== undefined) {
+                        slowAudioCurrentIndex[audioKey] = 0;
+                    }
+                });
+                
+                document.querySelectorAll('.sentence-card').forEach(card => {
+                    const progressContainer = card.querySelector('.slow-audio-progress');
+                    if (progressContainer) {
+                        const progressFill = progressContainer.querySelector('.slow-audio-progress-fill');
+                        const progressText = progressContainer.querySelector('.slow-audio-progress-text');
+                        if (progressFill) progressFill.style.width = '0%';
+                        if (progressText) progressText.textContent = '0/5';
+                    }
+                });
+                
+                saveData();
+                initPage();
+                
+                document.querySelectorAll('#sentences-cards .flashcard').forEach(card => {
+                    card.classList.remove('flipped');
+                    const cardId = getCardId(card);
+                    if (cardId) disableButtons(cardId);
+                });
+            }
+        }
+        
+        // 初始化進度條
+        function initializeProgressBars() {
+            document.querySelectorAll('.sentence-card').forEach(sentenceCard => {
+                let progressContainer = sentenceCard.querySelector('.slow-audio-progress');
+                if (!progressContainer) {
+                    progressContainer = document.createElement('div');
+                    progressContainer.className = 'slow-audio-progress';
+                    
+                    const progressFill = document.createElement('div');
+                    progressFill.className = 'slow-audio-progress-fill';
+                    
+                    const progressText = document.createElement('div');
+                    progressText.className = 'slow-audio-progress-text';
+                    progressText.textContent = '0/5';
+                    
+                    progressContainer.appendChild(progressFill);
+                    progressContainer.appendChild(progressText);
+                    sentenceCard.appendChild(progressContainer);
+                }
+                
+                progressContainer.style.display = 'block';
+                progressContainer.style.visibility = 'visible';
+            });
+        }
+        
+        // 初始化頁面
+        function initPage() {
+            if (!appData) return;
+            
+            Object.keys(starData).forEach(key => {
+                createStars(key, starData[key]);
+            });
+            
+            // 禁用所有按鈕（初始狀態）
+            Object.keys(starData).forEach(key => {
+                disableButtons(key);
+            });
+            
+            initializeProgressBars();
+            updateStats();
+            updateStatsDisplay('words');
+            
+            document.getElementById('data-status').classList.add('saving');
+            setTimeout(() => {
+                document.getElementById('data-status').classList.remove('saving');
+            }, 1000);
+        }
+        
+        // 頁面加載時初始化
+        window.addEventListener('load', function() {
+            // 初始化星星數據
+            initStarData();
+            
+            // 初始化慢速音頻索引
+            initSlowAudioIndex();
+            
+            // 更新頁面標題
+            document.getElementById('unit-title').textContent = appData.unit_title;
+            
+            // 生成卡片
+            generateCards();
+            
+            // 初始化頁面
+            initPage();
+        });
+    </script>
+</body>
+</html>
