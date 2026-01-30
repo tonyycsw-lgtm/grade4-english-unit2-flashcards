@@ -400,51 +400,50 @@
         }
         
         .action-btn:hover {
-            transform: translateY(-3px) scale(1.05); /* 懸停時輕微放大，增加靈動感 */
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
         }
         
         .action-btn:active {
-            transform: translateY(-1px) scale(0.92); /* 點擊時縮小，營造高級時尚的按壓感 */
+            transform: translateY(-1px) scale(0.92);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.1s; /* 點擊反應更迅速 */
+            transition: transform 0.1s;
         }
         
-        /* 改良：移除禁用感，保持外觀一致，僅改變鼠標樣式 */
         .action-btn:disabled {
-            opacity: 1 !important; /* 保持 100% 透明度，不變灰 */
-            cursor: default; /* 移除禁止符號，更顯高級 */
+            opacity: 1 !important;
+            cursor: default;
             transform: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .correct-btn {
-            background: #38a169; /* 初始即使用深綠色 Active 狀態 */
+            background: #38a169;
             opacity: 1 !important;
         }
         
         .correct-btn:hover:not(:disabled) {
-            background: #38a169; /* 懸停顏色不變 */
+            background: #38a169;
             opacity: 1 !important;
         }
         
         .correct-btn:active:not(:disabled) {
-            background: #38a169; /* 點擊顏色不變 */
+            background: #38a169;
             opacity: 1 !important;
         }
         
         .review-btn {
-            background: #e53e3e; /* 初始即使用深紅色 Active 狀態 */
+            background: #e53e3e;
             opacity: 1 !important;
         }
         
         .review-btn:hover:not(:disabled) {
-            background: #e53e3e; /* 懸停顏色不變 */
+            background: #e53e3e;
             opacity: 1 !important;
         }
 
         .review-btn:active:not(:disabled) {
-            background: #e53e3e; /* 點擊顏色不變 */
+            background: #e53e3e;
             opacity: 1 !important;
         }
         
@@ -476,7 +475,7 @@
         }
         
         .reset-button {
-            background: #e53e3e; /* 初始即使用深色 Active 狀態顏色 */
+            background: #e53e3e;
             color: white;
             border: none;
             padding: 8px 20px;
@@ -484,14 +483,14 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: transform 0.3s ease; /* 僅對變換效果進行過渡 */
+            transition: transform 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 6px;
             margin-top: 10px;
             float: right;
-            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2); /* 初始即帶有陰影 */
-            opacity: 1 !important; /* 確保透明度始終為 1 */
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
+            opacity: 1 !important;
         }
         
         .reset-button:hover {
@@ -503,7 +502,7 @@
         
         .reset-button:active {
             background: #e53e3e;
-            transform: translateY(0) scale(0.95); /* 高級按壓縮放 */
+            transform: translateY(0) scale(0.95);
             box-shadow: 0 2px 5px rgba(229, 62, 62, 0.2);
             transition: transform 0.1s;
             opacity: 1 !important;
@@ -727,7 +726,7 @@
     <div class="container">
         <div class="header">
             <h1>English Dictation Practice</h1>
-            <div class="subtitle" id="unit-title">Unit 5: The World of Gadgets</div>
+            <div class="subtitle" id="unit-title">Unit 2: The robot postman</div>
         </div>
         
         <div class="stats-container">
@@ -750,7 +749,7 @@
                     <div class="stats-grid">
                         <div class="stat-item">
                             <div class="stat-category">
-                                <div class="stat-value" id="total-words">10</div>
+                                <div class="stat-value" id="total-words">21</div>
                                 <div class="stat-label">全部詞彙</div>
                                 <div class="stat-help">固定總數</div>
                             </div>
@@ -764,14 +763,14 @@
                         </div>
                         <div class="stat-item">
                             <div class="stat-category">
-                                <div class="stat-value" id="review-words">10</div>
+                                <div class="stat-value" id="review-words">21</div>
                                 <div class="stat-label">溫習中</div>
                                 <div class="stat-help">0-4顆星</div>
                             </div>
                         </div>
                         <div class="stat-item hidden" id="sentences-stat1">
                             <div class="stat-category">
-                                <div class="stat-value" id="total-sentences-words-tab">6</div>
+                                <div class="stat-value" id="total-sentences-words-tab">18</div>
                                 <div class="stat-label">全部句子</div>
                                 <div class="stat-help">固定總數</div>
                             </div>
@@ -785,7 +784,7 @@
                         </div>
                         <div class="stat-item hidden" id="sentences-stat3">
                             <div class="stat-category">
-                                <div class="stat-value" id="review-sentences-words-tab">6</div>
+                                <div class="stat-value" id="review-sentences-words-tab">18</div>
                                 <div class="stat-label">溫習中</div>
                                 <div class="stat-help">0-4顆星</div>
                             </div>
@@ -797,7 +796,7 @@
                     <div class="stats-grid">
                         <div class="stat-item hidden" id="words-stat1">
                             <div class="stat-category">
-                                <div class="stat-value" id="total-words2">10</div>
+                                <div class="stat-value" id="total-words2">21</div>
                                 <div class="stat-label">全部詞彙</div>
                                 <div class="stat-help">固定總數</div>
                             </div>
@@ -811,14 +810,14 @@
                         </div>
                         <div class="stat-item hidden" id="words-stat3">
                             <div class="stat-category">
-                                <div class="stat-value" id="review-words2">10</div>
+                                <div class="stat-value" id="review-words2">21</div>
                                 <div class="stat-label">溫習中</div>
                                 <div class="stat-help">0-4顆星</div>
                             </div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-category">
-                                <div class="stat-value" id="total-sentences-sentences-tab">6</div>
+                                <div class="stat-value" id="total-sentences-sentences-tab">18</div>
                                 <div class="stat-label">全部句子</div>
                                 <div class="stat-help">固定總數</div>
                             </div>
@@ -832,7 +831,7 @@
                         </div>
                         <div class="stat-item">
                             <div class="stat-category">
-                                <div class="stat-value" id="review-sentences-sentences-tab">6</div>
+                                <div class="stat-value" id="review-sentences-sentences-tab">18</div>
                                 <div class="stat-label">溫習中</div>
                                 <div class="stat-help">0-4顆星</div>
                             </div>
@@ -869,7 +868,7 @@
         </div>
         
         <div class="footer">
-            English Writing Practice Platform © 2023 | 優先本地音頻，失敗時使用英式發音
+            English Learning & Practice Platform © 2023 Tony Yeung 工作室
         </div>
     </div>
 
@@ -879,31 +878,54 @@
             return `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-GB&client=tw-ob&q=${encodeURIComponent(text)}`;
         }
 
-        // === 本地音優先播放器 ===
+        // === 智能音頻播放器 ===
         class AudioPlayer {
             constructor() {
                 this.currentAudio = null;
                 this.currentAudioBtn = null;
                 this.localAudioPaths = {
-                    // 單詞
-                    'short': './audio/short.mp3',
-                    'new': './audio/new.mp3',
-                    'fun': './audio/fun.mp3',
-                    'less': './audio/less.mp3',
-                    'long': './audio/long.mp3',
-                    'small': './audio/small.mp3',
-                    'more': './audio/more.mp3',
-                    'photos': './audio/photos.mp3',
-                    'best': './audio/best.mp3',
-                    'movies': './audio/movies.mp3',
+                    // 單詞本地音頻路徑映射
+                    'postman': './audio/postman.mp3',
+                    'robot': './audio/robot.mp3',
+                    'letter': './audio/letter.mp3',
+                    'parcel': './audio/parcel.mp3',
+                    'bank': './audio/bank.mp3',
+                    'hospital': './audio/hospital.mp3',
+                    'tourist': './audio/tourist.mp3',
+                    'police_station': './audio/police_station.mp3',
+                    'fire_station': './audio/fire_station.mp3',
+                    'sports_centre': './audio/sports_centre.mp3',
+                    'fountain': './audio/fountain.mp3',
+                    'subway': './audio/subway.mp3',
+                    'deliver': './audio/deliver.mp3',
+                    'walk': './audio/walk.mp3',
+                    'turn': './audio/turn.mp3',
+                    'go_across': './audio/go_across.mp3',
+                    'walk_through': './audio/walk_through.mp3',
+                    'straight': './audio/straight.mp3',
+                    'opposite': './audio/opposite.mp3',
+                    'left': './audio/left.mp3',
+                    'right': './audio/right.mp3',
                     
-                    // 句子
+                    // 句子本地音頻路徑映射
                     'sentence1': './audio/sentence1.mp3',
                     'sentence2': './audio/sentence2.mp3',
                     'sentence3': './audio/sentence3.mp3',
                     'sentence4': './audio/sentence4.mp3',
                     'sentence5': './audio/sentence5.mp3',
-                    'sentence6': './audio/sentence6.mp3'
+                    'sentence6': './audio/sentence6.mp3',
+                    'sentence7': './audio/sentence7.mp3',
+                    'sentence8': './audio/sentence8.mp3',
+                    'sentence9': './audio/sentence9.mp3',
+                    'sentence10': './audio/sentence10.mp3',
+                    'sentence11': './audio/sentence11.mp3',
+                    'sentence12': './audio/sentence12.mp3',
+                    'sentence13': './audio/sentence13.mp3',
+                    'sentence14': './audio/sentence14.mp3',
+                    'sentence15': './audio/sentence15.mp3',
+                    'sentence16': './audio/sentence16.mp3',
+                    'sentence17': './audio/sentence17.mp3',
+                    'sentence18': './audio/sentence18.mp3'
                 };
                 
                 // 慢速音頻
@@ -911,44 +933,92 @@
                     'sentence1': [
                         './audio/slow_sentence1-1.mp3',
                         './audio/slow_sentence1-2.mp3',
-                        './audio/slow_sentence1-3.mp3',
-                        './audio/slow_sentence1-4.mp3',
-                        './audio/slow_sentence1-5.mp3'
+                        './audio/slow_sentence1-3.mp3'
                     ],
                     'sentence2': [
                         './audio/slow_sentence2-1.mp3',
                         './audio/slow_sentence2-2.mp3',
-                        './audio/slow_sentence2-3.mp3',
-                        './audio/slow_sentence2-4.mp3',
-                        './audio/slow_sentence2-5.mp3'
+                        './audio/slow_sentence2-3.mp3'
                     ],
                     'sentence3': [
                         './audio/slow_sentence3-1.mp3',
                         './audio/slow_sentence3-2.mp3',
-                        './audio/slow_sentence3-3.mp3',
-                        './audio/slow_sentence3-4.mp3',
-                        './audio/slow_sentence3-5.mp3'
+                        './audio/slow_sentence3-3.mp3'
                     ],
                     'sentence4': [
                         './audio/slow_sentence4-1.mp3',
                         './audio/slow_sentence4-2.mp3',
-                        './audio/slow_sentence4-3.mp3',
-                        './audio/slow_sentence4-4.mp3',
-                        './audio/slow_sentence4-5.mp3'
+                        './audio/slow_sentence4-3.mp3'
                     ],
                     'sentence5': [
                         './audio/slow_sentence5-1.mp3',
                         './audio/slow_sentence5-2.mp3',
-                        './audio/slow_sentence5-3.mp3',
-                        './audio/slow_sentence5-4.mp3',
-                        './audio/slow_sentence5-5.mp3'
+                        './audio/slow_sentence5-3.mp3'
                     ],
                     'sentence6': [
                         './audio/slow_sentence6-1.mp3',
                         './audio/slow_sentence6-2.mp3',
-                        './audio/slow_sentence6-3.mp3',
-                        './audio/slow_sentence6-4.mp3',
-                        './audio/slow_sentence6-5.mp3'
+                        './audio/slow_sentence6-3.mp3'
+                    ],
+                    'sentence7': [
+                        './audio/slow_sentence7-1.mp3',
+                        './audio/slow_sentence7-2.mp3',
+                        './audio/slow_sentence7-3.mp3'
+                    ],
+                    'sentence8': [
+                        './audio/slow_sentence8-1.mp3',
+                        './audio/slow_sentence8-2.mp3',
+                        './audio/slow_sentence8-3.mp3'
+                    ],
+                    'sentence9': [
+                        './audio/slow_sentence9-1.mp3',
+                        './audio/slow_sentence9-2.mp3',
+                        './audio/slow_sentence9-3.mp3'
+                    ],
+                    'sentence10': [
+                        './audio/slow_sentence10-1.mp3',
+                        './audio/slow_sentence10-2.mp3',
+                        './audio/slow_sentence10-3.mp3'
+                    ],
+                    'sentence11': [
+                        './audio/slow_sentence11-1.mp3',
+                        './audio/slow_sentence11-2.mp3',
+                        './audio/slow_sentence11-3.mp3'
+                    ],
+                    'sentence12': [
+                        './audio/slow_sentence12-1.mp3',
+                        './audio/slow_sentence12-2.mp3',
+                        './audio/slow_sentence12-3.mp3'
+                    ],
+                    'sentence13': [
+                        './audio/slow_sentence13-1.mp3',
+                        './audio/slow_sentence13-2.mp3',
+                        './audio/slow_sentence13-3.mp3'
+                    ],
+                    'sentence14': [
+                        './audio/slow_sentence14-1.mp3',
+                        './audio/slow_sentence14-2.mp3',
+                        './audio/slow_sentence14-3.mp3'
+                    ],
+                    'sentence15': [
+                        './audio/slow_sentence15-1.mp3',
+                        './audio/slow_sentence15-2.mp3',
+                        './audio/slow_sentence15-3.mp3'
+                    ],
+                    'sentence16': [
+                        './audio/slow_sentence16-1.mp3',
+                        './audio/slow_sentence16-2.mp3',
+                        './audio/slow_sentence16-3.mp3'
+                    ],
+                    'sentence17': [
+                        './audio/slow_sentence17-1.mp3',
+                        './audio/slow_sentence17-2.mp3',
+                        './audio/slow_sentence17-3.mp3'
+                    ],
+                    'sentence18': [
+                        './audio/slow_sentence18-1.mp3',
+                        './audio/slow_sentence18-2.mp3',
+                        './audio/slow_sentence18-3.mp3'
                     ]
                 };
             }
@@ -971,7 +1041,7 @@
                 }
             }
             
-            // 嘗試播放本地音頻，失敗時回退到TTS
+            // 智能播放音頻：優先本地，失敗時回退到TTS
             playAudio(audioKey, btn, event) {
                 stopPropagation(event);
                 this.stopCurrentAudio();
@@ -989,6 +1059,7 @@
                 
                 // 如果沒有本地路徑，直接使用TTS
                 if (!localPath) {
+                    console.log('No local audio found, using TTS for:', audioKey);
                     this.playTTSAudio(ttsAudio, btn);
                     return;
                 }
@@ -997,59 +1068,54 @@
                 this.currentAudioBtn = btn;
                 btn.classList.add('playing');
                 
-                // 先嘗試本地音頻
+                // 設置本地音頻源
                 this.currentAudio.src = localPath;
                 
+                // 本地音頻加載成功時播放
                 this.currentAudio.oncanplaythrough = () => {
-                    this.currentAudio.play().catch(e => {
-                        console.log('Local audio playback failed, trying TTS:', e);
+                    this.currentAudio.play().catch(localError => {
+                        console.log('Local audio playback failed, trying TTS:', localError);
                         // 本地播放失敗，嘗試TTS
                         if (ttsAudio) {
                             this.currentAudio.src = ttsAudio;
-                            this.currentAudio.play().catch(e2 => {
-                                console.log('TTS audio playback also failed:', e2);
-                                btn.classList.remove('playing');
-                                this.currentAudio = null;
-                                this.currentAudioBtn = null;
+                            this.currentAudio.play().catch(ttsError => {
+                                console.log('TTS audio playback also failed:', ttsError);
+                                this.handleAudioError(btn);
                             });
                         } else {
-                            btn.classList.remove('playing');
-                            this.currentAudio = null;
-                            this.currentAudioBtn = null;
+                            this.handleAudioError(btn);
                         }
                     });
                 };
                 
+                // 本地音頻加載失敗時直接切換到TTS
                 this.currentAudio.onerror = () => {
                     console.log('Local audio loading failed, trying TTS for:', audioKey);
-                    // 本地加載失敗，嘗試TTS
                     if (ttsAudio) {
                         this.currentAudio.src = ttsAudio;
                         this.currentAudio.oncanplaythrough = () => {
-                            this.currentAudio.play().catch(e => {
-                                console.log('TTS audio playback failed:', e);
-                                btn.classList.remove('playing');
-                                this.currentAudio = null;
-                                this.currentAudioBtn = null;
+                            this.currentAudio.play().catch(ttsError => {
+                                console.log('TTS audio playback failed:', ttsError);
+                                this.handleAudioError(btn);
                             });
                         };
                     } else {
-                        btn.classList.remove('playing');
-                        this.currentAudio = null;
-                        this.currentAudioBtn = null;
+                        this.handleAudioError(btn);
                     }
                 };
                 
                 this.currentAudio.onended = () => {
-                    btn.classList.remove('playing');
-                    this.currentAudio = null;
-                    this.currentAudioBtn = null;
+                    this.handleAudioEnd(btn);
                 };
             }
             
-            // 直接播放TTS音頻（備用）
+            // 播放TTS音頻（備用）
             playTTSAudio(ttsUrl, btn) {
-                if (!ttsUrl) return;
+                if (!ttsUrl) {
+                    console.error('No TTS URL available');
+                    this.handleAudioError(btn);
+                    return;
+                }
                 
                 this.currentAudio = new Audio(ttsUrl);
                 this.currentAudioBtn = btn;
@@ -1058,26 +1124,20 @@
                 this.currentAudio.oncanplaythrough = () => {
                     this.currentAudio.play().catch(e => {
                         console.log('TTS audio playback failed:', e);
-                        btn.classList.remove('playing');
-                        this.currentAudio = null;
-                        this.currentAudioBtn = null;
+                        this.handleAudioError(btn);
                     });
                 };
                 
                 this.currentAudio.onerror = () => {
-                    btn.classList.remove('playing');
-                    this.currentAudio = null;
-                    this.currentAudioBtn = null;
+                    this.handleAudioError(btn);
                 };
                 
                 this.currentAudio.onended = () => {
-                    btn.classList.remove('playing');
-                    this.currentAudio = null;
-                    this.currentAudioBtn = null;
+                    this.handleAudioEnd(btn);
                 };
             }
             
-            // 播放慢速音頻（優先本地）
+            // 智能播放慢速音頻（優先本地）
             playSequentialSlowAudio(sentenceKey, btn, event) {
                 stopPropagation(event);
                 
@@ -1090,6 +1150,7 @@
                     }
                 }
                 
+                // 如果點擊的是正在播放的按鈕，則停止播放
                 if (this.currentAudioBtn === btn && this.currentAudio) {
                     this.stopCurrentAudio();
                     resetProgressBar(btn);
@@ -1112,6 +1173,7 @@
                     ttsSlowAudio ? ttsSlowAudio.length : 0
                 );
                 
+                // 如果已經播放完所有部分，則重新開始
                 if (currentIndex >= totalParts) {
                     slowAudioCurrentIndex[sentenceKey] = 0;
                     resetProgressBar(btn);
@@ -1134,7 +1196,7 @@
                 icon.className = 'fas fa-pause';
                 btn.classList.add('playing');
                 
-                // 先嘗試本地音頻
+                // 優先嘗試本地音頻
                 if (localAudioFile) {
                     this.currentAudio.src = localAudioFile;
                 } else if (ttsAudioFile) {
@@ -1152,14 +1214,10 @@
                             this.currentAudio.src = ttsAudioFile;
                             this.currentAudio.play().catch(e2 => {
                                 console.log('TTS slow audio also failed:', e2);
-                                btn.classList.remove('playing');
-                                icon.className = 'fas fa-play';
-                                resetProgressBar(btn);
+                                this.handleSlowAudioError(btn);
                             });
                         } else {
-                            btn.classList.remove('playing');
-                            icon.className = 'fas fa-play';
-                            resetProgressBar(btn);
+                            this.handleSlowAudioError(btn);
                         }
                     });
                 };
@@ -1171,23 +1229,21 @@
                         this.currentAudio.oncanplaythrough = () => {
                             this.currentAudio.play().catch(e => {
                                 console.log('TTS slow audio playback failed:', e);
-                                btn.classList.remove('playing');
-                                icon.className = 'fas fa-play';
-                                resetProgressBar(btn);
+                                this.handleSlowAudioError(btn);
                             });
                         };
                     } else {
-                        btn.classList.remove('playing');
-                        icon.className = 'fas fa-play';
-                        resetProgressBar(btn);
+                        this.handleSlowAudioError(btn);
                     }
                 };
                 
                 this.currentAudio.onended = () => {
                     btn.classList.remove('playing');
                     
+                    // 更新索引
                     slowAudioCurrentIndex[sentenceKey] = (slowAudioCurrentIndex[sentenceKey] || 0) + 1;
                     
+                    // 如果還有下一部分，繼續播放
                     if (slowAudioCurrentIndex[sentenceKey] < totalParts) {
                         icon.className = 'fas fa-play';
                         
@@ -1196,6 +1252,7 @@
                             this.playSequentialSlowAudio(sentenceKey, btn, event);
                         }, 500);
                     } else {
+                        // 播放完成，重置
                         slowAudioCurrentIndex[sentenceKey] = 0;
                         icon.className = 'fas fa-play';
                         resetProgressBar(btn);
@@ -1204,270 +1261,292 @@
                     }
                 };
             }
+            
+            // 處理音頻錯誤
+            handleAudioError(btn) {
+                btn.classList.remove('playing');
+                this.currentAudio = null;
+                this.currentAudioBtn = null;
+            }
+            
+            // 處理音頻結束
+            handleAudioEnd(btn) {
+                btn.classList.remove('playing');
+                this.currentAudio = null;
+                this.currentAudioBtn = null;
+            }
+            
+            // 處理慢速音頻錯誤
+            handleSlowAudioError(btn) {
+                btn.classList.remove('playing');
+                const icon = btn.querySelector('i');
+                icon.className = 'fas fa-play';
+                resetProgressBar(btn);
+            }
         }
 
         // === 嵌入的默書數據 ===
-                const appData = {
+        const appData = {
             "unit_title": "Unit 2: The robot postman",
             "words": [
                 {
-                                "id": "word1",
-                                "english": "postman",
-                                "translation": "郵差",
-                                "hint": "noun",
-                                "audio": "postman"
+                    "id": "word1",
+                    "english": "postman",
+                    "translation": "郵差",
+                    "hint": "noun",
+                    "audio": "postman"
                 },
                 {
-                                "id": "word2",
-                                "english": "robot",
-                                "translation": "機器人",
-                                "hint": "noun",
-                                "audio": "robot"
+                    "id": "word2",
+                    "english": "robot",
+                    "translation": "機器人",
+                    "hint": "noun",
+                    "audio": "robot"
                 },
                 {
-                                "id": "word3",
-                                "english": "letter",
-                                "translation": "信件",
-                                "hint": "noun",
-                                "audio": "letter"
+                    "id": "word3",
+                    "english": "letter",
+                    "translation": "信件",
+                    "hint": "noun",
+                    "audio": "letter"
                 },
                 {
-                                "id": "word4",
-                                "english": "parcel",
-                                "translation": "包裹",
-                                "hint": "noun",
-                                "audio": "parcel"
+                    "id": "word4",
+                    "english": "parcel",
+                    "translation": "包裹",
+                    "hint": "noun",
+                    "audio": "parcel"
                 },
                 {
-                                "id": "word5",
-                                "english": "bank",
-                                "translation": "銀行",
-                                "hint": "noun",
-                                "audio": "bank"
+                    "id": "word5",
+                    "english": "bank",
+                    "translation": "銀行",
+                    "hint": "noun",
+                    "audio": "bank"
                 },
                 {
-                                "id": "word6",
-                                "english": "hospital",
-                                "translation": "醫院",
-                                "hint": "noun",
-                                "audio": "hospital"
+                    "id": "word6",
+                    "english": "hospital",
+                    "translation": "醫院",
+                    "hint": "noun",
+                    "audio": "hospital"
                 },
                 {
-                                "id": "word7",
-                                "english": "tourist",
-                                "translation": "遊客",
-                                "hint": "noun",
-                                "audio": "tourist"
+                    "id": "word7",
+                    "english": "tourist",
+                    "translation": "遊客",
+                    "hint": "noun",
+                    "audio": "tourist"
                 },
                 {
-                                "id": "word8",
-                                "english": "police station",
-                                "translation": "警察局",
-                                "hint": "noun",
-                                "audio": "police_station"
+                    "id": "word8",
+                    "english": "police station",
+                    "translation": "警察局",
+                    "hint": "noun",
+                    "audio": "police_station"
                 },
                 {
-                                "id": "word9",
-                                "english": "fire station",
-                                "translation": "消防局",
-                                "hint": "noun",
-                                "audio": "fire_station"
+                    "id": "word9",
+                    "english": "fire station",
+                    "translation": "消防局",
+                    "hint": "noun",
+                    "audio": "fire_station"
                 },
                 {
-                                "id": "word10",
-                                "english": "sports centre",
-                                "translation": "體育中心",
-                                "hint": "noun",
-                                "audio": "sports_centre"
+                    "id": "word10",
+                    "english": "sports centre",
+                    "translation": "體育中心",
+                    "hint": "noun",
+                    "audio": "sports_centre"
                 },
                 {
-                                "id": "word11",
-                                "english": "fountain",
-                                "translation": "噴泉",
-                                "hint": "noun",
-                                "audio": "fountain"
+                    "id": "word11",
+                    "english": "fountain",
+                    "translation": "噴泉",
+                    "hint": "noun",
+                    "audio": "fountain"
                 },
                 {
-                                "id": "word12",
-                                "english": "subway",
-                                "translation": "地鐵",
-                                "hint": "noun",
-                                "audio": "subway"
+                    "id": "word12",
+                    "english": "subway",
+                    "translation": "地鐵",
+                    "hint": "noun",
+                    "audio": "subway"
                 },
                 {
-                                "id": "word13",
-                                "english": "deliver",
-                                "translation": "遞送",
-                                "hint": "verb",
-                                "audio": "deliver"
+                    "id": "word13",
+                    "english": "deliver",
+                    "translation": "遞送",
+                    "hint": "verb",
+                    "audio": "deliver"
                 },
                 {
-                                "id": "word14",
-                                "english": "walk",
-                                "translation": "走路",
-                                "hint": "verb",
-                                "audio": "walk"
+                    "id": "word14",
+                    "english": "walk",
+                    "translation": "走路",
+                    "hint": "verb",
+                    "audio": "walk"
                 },
                 {
-                                "id": "word15",
-                                "english": "turn",
-                                "translation": "轉彎",
-                                "hint": "verb",
-                                "audio": "turn"
+                    "id": "word15",
+                    "english": "turn",
+                    "translation": "轉彎",
+                    "hint": "verb",
+                    "audio": "turn"
                 },
                 {
-                                "id": "word16",
-                                "english": "go across",
-                                "translation": "橫過",
-                                "hint": "verb",
-                                "audio": "go_across"
+                    "id": "word16",
+                    "english": "go across",
+                    "translation": "橫過",
+                    "hint": "verb",
+                    "audio": "go_across"
                 },
                 {
-                                "id": "word17",
-                                "english": "walk through",
-                                "translation": "穿過",
-                                "hint": "verb",
-                                "audio": "walk_through"
+                    "id": "word17",
+                    "english": "walk through",
+                    "translation": "穿過",
+                    "hint": "verb",
+                    "audio": "walk_through"
                 },
                 {
-                                "id": "word18",
-                                "english": "straight",
-                                "translation": "筆直地",
-                                "hint": "adverb",
-                                "audio": "straight"
+                    "id": "word18",
+                    "english": "straight",
+                    "translation": "筆直地",
+                    "hint": "adverb",
+                    "audio": "straight"
                 },
                 {
-                                "id": "word19",
-                                "english": "opposite",
-                                "translation": "在...對面",
-                                "hint": "preposition",
-                                "audio": "opposite"
+                    "id": "word19",
+                    "english": "opposite",
+                    "translation": "在...對面",
+                    "hint": "preposition",
+                    "audio": "opposite"
                 },
                 {
-                                "id": "word20",
-                                "english": "left",
-                                "translation": "左邊",
-                                "hint": "noun/adjective",
-                                "audio": "left"
+                    "id": "word20",
+                    "english": "left",
+                    "translation": "左邊",
+                    "hint": "noun/adjective",
+                    "audio": "left"
                 },
                 {
-                                "id": "word21",
-                                "english": "right",
-                                "translation": "右邊",
-                                "hint": "noun/adjective",
-                                "audio": "right"
+                    "id": "word21",
+                    "english": "right",
+                    "translation": "右邊",
+                    "hint": "noun/adjective",
+                    "audio": "right"
                 }
-],
+            ],
             "sentences": [
                 {
-                                "id": "sent1",
-                                "english": "Bobo is a robot postman.",
-                                "translation": "Bobo 是一個機器人郵差。",
-                                "audio": "sentence1"
+                    "id": "sent1",
+                    "english": "Bobo is a robot postman.",
+                    "translation": "Bobo 是一個機器人郵差。",
+                    "audio": "sentence1"
                 },
                 {
-                                "id": "sent2",
-                                "english": "He delivers letters and parcels to different places.",
-                                "translation": "他把信件和包裹送到不同的地方。",
-                                "audio": "sentence2"
+                    "id": "sent2",
+                    "english": "He delivers letters and parcels to different places.",
+                    "translation": "他把信件和包裹送到不同的地方。",
+                    "audio": "sentence2"
                 },
                 {
-                                "id": "sent3",
-                                "english": "Yesterday was his first day at work.",
-                                "translation": "昨天是他第一天上班。",
-                                "audio": "sentence3"
+                    "id": "sent3",
+                    "english": "Yesterday was his first day at work.",
+                    "translation": "昨天是他第一天上班。",
+                    "audio": "sentence3"
                 },
                 {
-                                "id": "sent4",
-                                "english": "His mini computer showed him the way.",
-                                "translation": "他的迷你電腦給他指路。",
-                                "audio": "sentence4"
+                    "id": "sent4",
+                    "english": "His mini computer showed him the way.",
+                    "translation": "他的迷你電腦給他指路。",
+                    "audio": "sentence4"
                 },
                 {
-                                "id": "sent5",
-                                "english": "Go across Tung Shan Street.",
-                                "translation": "橫過東山街。",
-                                "audio": "sentence5"
+                    "id": "sent5",
+                    "english": "Go across Tung Shan Street.",
+                    "translation": "橫過東山街。",
+                    "audio": "sentence5"
                 },
                 {
-                                "id": "sent6",
-                                "english": "Walk straight ahead along Shanghai Road.",
-                                "translation": "沿著上海道一直向前走。",
-                                "audio": "sentence6"
+                    "id": "sent6",
+                    "english": "Walk straight ahead along Shanghai Road.",
+                    "translation": "沿著上海道一直向前走。",
+                    "audio": "sentence6"
                 },
                 {
-                                "id": "sent7",
-                                "english": "NT Bank is opposite the hospital.",
-                                "translation": "NT 銀行在醫院對面。",
-                                "audio": "sentence7"
+                    "id": "sent7",
+                    "english": "NT Bank is opposite the hospital.",
+                    "translation": "NT 銀行在醫院對面。",
+                    "audio": "sentence7"
                 },
                 {
-                                "id": "sent8",
-                                "english": "Turn right at the NT Bank entrance.",
-                                "translation": "在 NT 銀行入口處右轉。",
-                                "audio": "sentence8"
+                    "id": "sent8",
+                    "english": "Turn right at the NT Bank entrance.",
+                    "translation": "在 NT 銀行入口處右轉。",
+                    "audio": "sentence8"
                 },
                 {
-                                "id": "sent9",
-                                "english": "Walk past the fountain.",
-                                "translation": "走過噴泉。",
-                                "audio": "sentence9"
+                    "id": "sent9",
+                    "english": "Walk past the fountain.",
+                    "translation": "走過噴泉。",
+                    "audio": "sentence9"
                 },
                 {
-                                "id": "sent10",
-                                "english": "Walk through the subway.",
-                                "translation": "穿過地鐵。",
-                                "audio": "sentence10"
+                    "id": "sent10",
+                    "english": "Walk through the subway.",
+                    "translation": "穿過地鐵。",
+                    "audio": "sentence10"
                 },
                 {
-                                "id": "sent11",
-                                "english": "Hot Satay is on your right.",
-                                "translation": "Hot Satay 在你的右邊。",
-                                "audio": "sentence11"
+                    "id": "sent11",
+                    "english": "Hot Satay is on your right.",
+                    "translation": "Hot Satay 在你的右邊。",
+                    "audio": "sentence11"
                 },
                 {
-                                "id": "sent12",
-                                "english": "How can we get to the MTR station?",
-                                "translation": "我們怎樣去地鐵站？",
-                                "audio": "sentence12"
+                    "id": "sent12",
+                    "english": "How can we get to the MTR station?",
+                    "translation": "我們怎樣去地鐵站？",
+                    "audio": "sentence12"
                 },
                 {
-                                "id": "sent13",
-                                "english": "Walk along Prince Edward Street.",
-                                "translation": "沿著太子道走。",
-                                "audio": "sentence13"
+                    "id": "sent13",
+                    "english": "Walk along Prince Edward Street.",
+                    "translation": "沿著太子道走。",
+                    "audio": "sentence13"
                 },
                 {
-                                "id": "sent14",
-                                "english": "Go past the police station.",
-                                "translation": "經過警察局。",
-                                "audio": "sentence14"
+                    "id": "sent14",
+                    "english": "Go past the police station.",
+                    "translation": "經過警察局。",
+                    "audio": "sentence14"
                 },
                 {
-                                "id": "sent15",
-                                "english": "Walk across the footbridge.",
-                                "translation": "走過行人天橋。",
-                                "audio": "sentence15"
+                    "id": "sent15",
+                    "english": "Walk across the footbridge.",
+                    "translation": "走過行人天橋。",
+                    "audio": "sentence15"
                 },
                 {
-                                "id": "sent16",
-                                "english": "The MTR Station is in front of you.",
-                                "translation": "地鐵站就在你面前。",
-                                "audio": "sentence16"
+                    "id": "sent16",
+                    "english": "The MTR Station is in front of you.",
+                    "translation": "地鐵站就在你面前。",
+                    "audio": "sentence16"
                 },
                 {
-                                "id": "sent17",
-                                "english": "Could you please tell me the way to the sports centre?",
-                                "translation": "請問去體育中心怎麼走？",
-                                "audio": "sentence17"
+                    "id": "sent17",
+                    "english": "Could you please tell me the way to the sports centre?",
+                    "translation": "請問去體育中心怎麼走？",
+                    "audio": "sentence17"
                 },
                 {
-                                "id": "sent18",
-                                "english": "The sports centre is on your left.",
-                                "translation": "體育中心在你的左邊。",
-                                "audio": "sentence18"
+                    "id": "sent18",
+                    "english": "The sports centre is on your left.",
+                    "translation": "體育中心在你的左邊。",
+                    "audio": "sentence18"
                 }
-],
+            ],
             // === 備用TTS音頻文件 ===
             "audio_files": {
                 "postman": generateBritishAudioURL("postman"),
@@ -2045,8 +2124,6 @@
             const tabText = activeTab.textContent.toLowerCase();
             const isWordsTab = tabText.includes('words');
             const isSentencesTab = tabText.includes('sentences');
-            
-            // 移除 JavaScript 中的點擊縮放和透明度變化效果
             
             if (isWordsTab) {
                 appData.words.forEach(word => {
