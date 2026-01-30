@@ -873,9 +873,46 @@
     </div>
 
     <script>
-        // === 英式發音生成函數 ===
-        function generateBritishAudioURL(text) {
-            return `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-GB&client=tw-ob&q=${encodeURIComponent(text)}`;
+        // === Speech Synthesis API 函數 ===
+        function speakText(text, rate = 0.9) {
+            return new Promise((resolve, reject) => {
+                // 檢查瀏覽器是否支持 Speech Synthesis API
+                if (!('speechSynthesis' in window)) {
+                    reject(new Error('您的瀏覽器不支持語音合成功能'));
+                    return;
+                }
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // 設置為英式發音
+                utterance.lang = 'en-GB';
+                utterance.rate = rate; // 設置語速
+                
+                // 嘗試查找英式發音的語音
+                const voices = speechSynthesis.getVoices();
+                const britishVoice = voices.find(voice => 
+                    voice.lang === 'en-GB' || 
+                    voice.name.toLowerCase().includes('british') ||
+                    voice.name.toLowerCase().includes('uk')
+                );
+                
+                if (britishVoice) {
+                    utterance.voice = britishVoice;
+                } else {
+                    utterance.lang = 'en-US'; // 如果沒有英式語音，使用美式作為備用
+                }
+                
+                utterance.onend = resolve;
+                utterance.onerror = (event) => {
+                    reject(new Error('語音合成失敗: ' + event.error));
+                };
+                
+                // 停止當前正在播放的語音
+                speechSynthesis.cancel();
+                
+                // 播放語音
+                speechSynthesis.speak(utterance);
+            });
         }
 
         // === 智能音頻播放器 ===
@@ -1021,6 +1058,9 @@
                         './audio/slow_sentence18-3.mp3'
                     ]
                 };
+                
+                this.ttsQueue = []; // TTS播放隊列
+                this.isPlayingTTS = false;
             }
             
             // 停止當前音頻
@@ -1039,13 +1079,19 @@
                     this.currentAudio = null;
                     this.currentAudioBtn = null;
                 }
+                
+                // 停止Speech Synthesis
+                speechSynthesis.cancel();
+                this.ttsQueue = [];
+                this.isPlayingTTS = false;
             }
             
-            // 智能播放音頻：優先本地，失敗時回退到TTS
-            playAudio(audioKey, btn, event) {
+            // 智能播放音頻：優先本地，失敗時回退到Speech Synthesis
+            async playAudio(audioKey, btn, event) {
                 stopPropagation(event);
                 this.stopCurrentAudio();
                 
+                // 重置所有播放按鈕狀態
                 document.querySelectorAll('.slow-btn').forEach(slowBtn => {
                     if (slowBtn.classList.contains('playing')) {
                         slowBtn.classList.remove('playing');
@@ -1055,12 +1101,15 @@
                 
                 // 優先嘗試本地音頻
                 const localPath = this.localAudioPaths[audioKey];
-                const ttsAudio = appData.audio_files[audioKey];
+                let text = '';
                 
-                // 如果沒有本地路徑，直接使用TTS
+                // 從按鈕獲取文本（或者使用audioKey作為文本）
+                text = btn.getAttribute('data-text') || audioKey;
+                
+                // 如果沒有本地路徑，直接使用Speech Synthesis
                 if (!localPath) {
-                    console.log('No local audio found, using TTS for:', audioKey);
-                    this.playTTSAudio(ttsAudio, btn);
+                    console.log('No local audio found, using Speech Synthesis for:', text);
+                    this.playTTSAudio(text, btn);
                     return;
                 }
                 
@@ -1074,34 +1123,16 @@
                 // 本地音頻加載成功時播放
                 this.currentAudio.oncanplaythrough = () => {
                     this.currentAudio.play().catch(localError => {
-                        console.log('Local audio playback failed, trying TTS:', localError);
-                        // 本地播放失敗，嘗試TTS
-                        if (ttsAudio) {
-                            this.currentAudio.src = ttsAudio;
-                            this.currentAudio.play().catch(ttsError => {
-                                console.log('TTS audio playback also failed:', ttsError);
-                                this.handleAudioError(btn);
-                            });
-                        } else {
-                            this.handleAudioError(btn);
-                        }
+                        console.log('Local audio playback failed, trying Speech Synthesis:', localError);
+                        // 本地播放失敗，嘗試Speech Synthesis
+                        this.playTTSAudio(text, btn);
                     });
                 };
                 
-                // 本地音頻加載失敗時直接切換到TTS
+                // 本地音頻加載失敗時直接切換到Speech Synthesis
                 this.currentAudio.onerror = () => {
-                    console.log('Local audio loading failed, trying TTS for:', audioKey);
-                    if (ttsAudio) {
-                        this.currentAudio.src = ttsAudio;
-                        this.currentAudio.oncanplaythrough = () => {
-                            this.currentAudio.play().catch(ttsError => {
-                                console.log('TTS audio playback failed:', ttsError);
-                                this.handleAudioError(btn);
-                            });
-                        };
-                    } else {
-                        this.handleAudioError(btn);
-                    }
+                    console.log('Local audio loading failed, trying Speech Synthesis for:', text);
+                    this.playTTSAudio(text, btn);
                 };
                 
                 this.currentAudio.onended = () => {
@@ -1109,36 +1140,30 @@
                 };
             }
             
-            // 播放TTS音頻（備用）
-            playTTSAudio(ttsUrl, btn) {
-                if (!ttsUrl) {
-                    console.error('No TTS URL available');
+            // 使用Speech Synthesis播放音頻
+            playTTSAudio(text, btn) {
+                if (!text) {
+                    console.error('No text available for Speech Synthesis');
                     this.handleAudioError(btn);
                     return;
                 }
                 
-                this.currentAudio = new Audio(ttsUrl);
                 this.currentAudioBtn = btn;
                 btn.classList.add('playing');
                 
-                this.currentAudio.oncanplaythrough = () => {
-                    this.currentAudio.play().catch(e => {
-                        console.log('TTS audio playback failed:', e);
+                // 使用Speech Synthesis API
+                speakText(text, 1)
+                    .then(() => {
+                        this.handleAudioEnd(btn);
+                    })
+                    .catch(error => {
+                        console.log('Speech Synthesis failed:', error);
                         this.handleAudioError(btn);
                     });
-                };
-                
-                this.currentAudio.onerror = () => {
-                    this.handleAudioError(btn);
-                };
-                
-                this.currentAudio.onended = () => {
-                    this.handleAudioEnd(btn);
-                };
             }
             
             // 智能播放慢速音頻（優先本地）
-            playSequentialSlowAudio(sentenceKey, btn, event) {
+            async playSequentialSlowAudio(sentenceKey, btn, event) {
                 stopPropagation(event);
                 
                 const sentenceCard = btn.closest('.sentence-card');
@@ -1151,7 +1176,7 @@
                 }
                 
                 // 如果點擊的是正在播放的按鈕，則停止播放
-                if (this.currentAudioBtn === btn && this.currentAudio) {
+                if (this.currentAudioBtn === btn && this.isPlayingTTS) {
                     this.stopCurrentAudio();
                     resetProgressBar(btn);
                     return;
@@ -1159,19 +1184,16 @@
                 
                 // 檢查是否有慢速音頻
                 const localSlowAudio = this.slowAudioPaths[sentenceKey];
-                const ttsSlowAudio = appData.slow_audio_files[sentenceKey];
+                let text = btn.getAttribute('data-text') || '';
                 
-                if ((!localSlowAudio || localSlowAudio.length === 0) && 
-                    (!ttsSlowAudio || ttsSlowAudio.length === 0)) {
-                    console.error('No slow audio files found for', sentenceKey);
+                if (!localSlowAudio || localSlowAudio.length === 0) {
+                    console.log('No local slow audio found, using Speech Synthesis for slow playback');
+                    this.playSlowTTSAudio(text, btn);
                     return;
                 }
                 
                 const currentIndex = slowAudioCurrentIndex[sentenceKey] || 0;
-                const totalParts = Math.max(
-                    localSlowAudio ? localSlowAudio.length : 0,
-                    ttsSlowAudio ? ttsSlowAudio.length : 0
-                );
+                const totalParts = localSlowAudio.length;
                 
                 // 如果已經播放完所有部分，則重新開始
                 if (currentIndex >= totalParts) {
@@ -1181,9 +1203,7 @@
                     return;
                 }
                 
-                // 優先使用本地慢速音頻，失敗時使用TTS
-                const localAudioFile = localSlowAudio ? localSlowAudio[currentIndex] : null;
-                const ttsAudioFile = ttsSlowAudio ? ttsSlowAudio[currentIndex] : null;
+                const localAudioFile = localSlowAudio[currentIndex];
                 
                 this.stopCurrentAudio();
                 
@@ -1196,45 +1216,19 @@
                 icon.className = 'fas fa-pause';
                 btn.classList.add('playing');
                 
-                // 優先嘗試本地音頻
-                if (localAudioFile) {
-                    this.currentAudio.src = localAudioFile;
-                } else if (ttsAudioFile) {
-                    this.currentAudio.src = ttsAudioFile;
-                } else {
-                    console.error('No audio file available for index', currentIndex);
-                    return;
-                }
+                this.currentAudio.src = localAudioFile;
                 
                 this.currentAudio.oncanplaythrough = () => {
                     this.currentAudio.play().catch(e => {
                         console.log('Slow audio playback failed:', e);
-                        // 如果本地音頻失敗且存在TTS備用，嘗試TTS
-                        if (localAudioFile && ttsAudioFile) {
-                            this.currentAudio.src = ttsAudioFile;
-                            this.currentAudio.play().catch(e2 => {
-                                console.log('TTS slow audio also failed:', e2);
-                                this.handleSlowAudioError(btn);
-                            });
-                        } else {
-                            this.handleSlowAudioError(btn);
-                        }
+                        // 本地播放失敗，嘗試Speech Synthesis
+                        this.playSlowTTSAudio(text, btn);
                     });
                 };
                 
                 this.currentAudio.onerror = () => {
-                    // 本地音頻加載失敗，嘗試TTS（如果存在）
-                    if (localAudioFile && ttsAudioFile) {
-                        this.currentAudio.src = ttsAudioFile;
-                        this.currentAudio.oncanplaythrough = () => {
-                            this.currentAudio.play().catch(e => {
-                                console.log('TTS slow audio playback failed:', e);
-                                this.handleSlowAudioError(btn);
-                            });
-                        };
-                    } else {
-                        this.handleSlowAudioError(btn);
-                    }
+                    console.log('Local slow audio loading failed, trying Speech Synthesis');
+                    this.playSlowTTSAudio(text, btn);
                 };
                 
                 this.currentAudio.onended = () => {
@@ -1262,11 +1256,95 @@
                 };
             }
             
+            // 使用Speech Synthesis播放慢速音頻
+            playSlowTTSAudio(text, btn) {
+                if (!text) {
+                    console.error('No text available for slow Speech Synthesis');
+                    this.handleAudioError(btn);
+                    return;
+                }
+                
+                // 將句子分成短語（更適合慢速學習）
+                const phrases = this.splitIntoSentencePhrases(text);
+                const totalParts = phrases.length;
+                let currentIndex = 0;
+                
+                const playNextPhrase = () => {
+                    if (currentIndex >= totalParts) {
+                        // 播放完成，重置
+                        btn.classList.remove('playing');
+                        const icon = btn.querySelector('i');
+                        icon.className = 'fas fa-play';
+                        resetProgressBar(btn);
+                        this.isPlayingTTS = false;
+                        return;
+                    }
+                    
+                    updateProgressBar(btn, currentIndex, totalParts);
+                    
+                    speakText(phrases[currentIndex], 0.7) // 慢速播放
+                        .then(() => {
+                            currentIndex++;
+                            setTimeout(playNextPhrase, 500); // 短暫暫停
+                        })
+                        .catch(error => {
+                            console.log('Slow Speech Synthesis failed:', error);
+                            btn.classList.remove('playing');
+                            const icon = btn.querySelector('i');
+                            icon.className = 'fas fa-play';
+                            resetProgressBar(btn);
+                            this.isPlayingTTS = false;
+                        });
+                };
+                
+                this.stopCurrentAudio();
+                this.currentAudioBtn = btn;
+                btn.classList.add('playing');
+                const icon = btn.querySelector('i');
+                icon.className = 'fas fa-pause';
+                this.isPlayingTTS = true;
+                
+                playNextPhrase();
+            }
+            
+            // 將句子分成適合學習的短語
+            splitIntoSentencePhrases(text) {
+                // 根據標點和長度分割句子
+                const phrases = [];
+                const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                
+                sentences.forEach(sentence => {
+                    const words = sentence.trim().split(/\s+/);
+                    
+                    if (words.length <= 4) {
+                        // 短句子直接作為一個短語
+                        phrases.push(sentence.trim());
+                    } else {
+                        // 長句子分成多個短語
+                        const chunkSize = Math.ceil(words.length / 2);
+                        for (let i = 0; i < words.length; i += chunkSize) {
+                            const chunk = words.slice(i, i + chunkSize).join(' ');
+                            if (chunk.trim().length > 0) {
+                                phrases.push(chunk.trim());
+                            }
+                        }
+                    }
+                });
+                
+                // 如果沒有分割出短語，返回原文本
+                if (phrases.length === 0) {
+                    phrases.push(text);
+                }
+                
+                return phrases;
+            }
+            
             // 處理音頻錯誤
             handleAudioError(btn) {
                 btn.classList.remove('playing');
                 this.currentAudio = null;
                 this.currentAudioBtn = null;
+                this.isPlayingTTS = false;
             }
             
             // 處理音頻結束
@@ -1274,6 +1352,7 @@
                 btn.classList.remove('playing');
                 this.currentAudio = null;
                 this.currentAudioBtn = null;
+                this.isPlayingTTS = false;
             }
             
             // 處理慢速音頻錯誤
@@ -1282,6 +1361,7 @@
                 const icon = btn.querySelector('i');
                 icon.className = 'fas fa-play';
                 resetProgressBar(btn);
+                this.isPlayingTTS = false;
             }
         }
 
@@ -1546,143 +1626,7 @@
                     "translation": "體育中心在你的左邊。",
                     "audio": "sentence18"
                 }
-            ],
-            // === 備用TTS音頻文件 ===
-            "audio_files": {
-                "postman": generateBritishAudioURL("postman"),
-                "robot": generateBritishAudioURL("robot"),
-                "letter": generateBritishAudioURL("letter"),
-                "parcel": generateBritishAudioURL("parcel"),
-                "bank": generateBritishAudioURL("bank"),
-                "hospital": generateBritishAudioURL("hospital"),
-                "tourist": generateBritishAudioURL("tourist"),
-                "police_station": generateBritishAudioURL("police station"),
-                "fire_station": generateBritishAudioURL("fire station"),
-                "sports_centre": generateBritishAudioURL("sports centre"),
-                "fountain": generateBritishAudioURL("fountain"),
-                "subway": generateBritishAudioURL("subway"),
-                "deliver": generateBritishAudioURL("deliver"),
-                "walk": generateBritishAudioURL("walk"),
-                "turn": generateBritishAudioURL("turn"),
-                "go_across": generateBritishAudioURL("go across"),
-                "walk_through": generateBritishAudioURL("walk through"),
-                "straight": generateBritishAudioURL("straight"),
-                "opposite": generateBritishAudioURL("opposite"),
-                "left": generateBritishAudioURL("left"),
-                "right": generateBritishAudioURL("right"),
-                "sentence1": generateBritishAudioURL("Bobo is a robot postman"),
-                "sentence2": generateBritishAudioURL("He delivers letters and parcels to different places"),
-                "sentence3": generateBritishAudioURL("Yesterday was his first day at work"),
-                "sentence4": generateBritishAudioURL("His mini computer showed him the way"),
-                "sentence5": generateBritishAudioURL("Go across Tung Shan Street"),
-                "sentence6": generateBritishAudioURL("Walk straight ahead along Shanghai Road"),
-                "sentence7": generateBritishAudioURL("NT Bank is opposite the hospital"),
-                "sentence8": generateBritishAudioURL("Turn right at the NT Bank entrance"),
-                "sentence9": generateBritishAudioURL("Walk past the fountain"),
-                "sentence10": generateBritishAudioURL("Walk through the subway"),
-                "sentence11": generateBritishAudioURL("Hot Satay is on your right"),
-                "sentence12": generateBritishAudioURL("How can we get to the MTR station?"),
-                "sentence13": generateBritishAudioURL("Walk along Prince Edward Street"),
-                "sentence14": generateBritishAudioURL("Go past the police station"),
-                "sentence15": generateBritishAudioURL("Walk across the footbridge"),
-                "sentence16": generateBritishAudioURL("The MTR Station is in front of you"),
-                "sentence17": generateBritishAudioURL("Could you please tell me the way to the sports centre?"),
-                "sentence18": generateBritishAudioURL("The sports centre is on your left")
-            },
-            
-            // === 備用慢速TTS音頻 ===
-            "slow_audio_files": {
-                "sentence1": [
-                    generateBritishAudioURL("Bobo is"),
-                    generateBritishAudioURL("a robot postman"),
-                    generateBritishAudioURL("Bobo is a robot postman")
-                ],
-                "sentence2": [
-                    generateBritishAudioURL("He delivers letters and"),
-                    generateBritishAudioURL("parcels to different places"),
-                    generateBritishAudioURL("He delivers letters and parcels to different places")
-                ],
-                "sentence3": [
-                    generateBritishAudioURL("Yesterday was his"),
-                    generateBritishAudioURL("first day at work"),
-                    generateBritishAudioURL("Yesterday was his first day at work")
-                ],
-                "sentence4": [
-                    generateBritishAudioURL("His mini computer"),
-                    generateBritishAudioURL("showed him the way"),
-                    generateBritishAudioURL("His mini computer showed him the way")
-                ],
-                "sentence5": [
-                    generateBritishAudioURL("Go across"),
-                    generateBritishAudioURL("Tung Shan Street"),
-                    generateBritishAudioURL("Go across Tung Shan Street")
-                ],
-                "sentence6": [
-                    generateBritishAudioURL("Walk straight ahead"),
-                    generateBritishAudioURL("along Shanghai Road"),
-                    generateBritishAudioURL("Walk straight ahead along Shanghai Road")
-                ],
-                "sentence7": [
-                    generateBritishAudioURL("NT Bank is"),
-                    generateBritishAudioURL("opposite the hospital"),
-                    generateBritishAudioURL("NT Bank is opposite the hospital")
-                ],
-                "sentence8": [
-                    generateBritishAudioURL("Turn right at"),
-                    generateBritishAudioURL("the NT Bank entrance"),
-                    generateBritishAudioURL("Turn right at the NT Bank entrance")
-                ],
-                "sentence9": [
-                    generateBritishAudioURL("Walk past"),
-                    generateBritishAudioURL("the fountain"),
-                    generateBritishAudioURL("Walk past the fountain")
-                ],
-                "sentence10": [
-                    generateBritishAudioURL("Walk through"),
-                    generateBritishAudioURL("the subway"),
-                    generateBritishAudioURL("Walk through the subway")
-                ],
-                "sentence11": [
-                    generateBritishAudioURL("Hot Satay is"),
-                    generateBritishAudioURL("on your right"),
-                    generateBritishAudioURL("Hot Satay is on your right")
-                ],
-                "sentence12": [
-                    generateBritishAudioURL("How can we get"),
-                    generateBritishAudioURL("to the MTR station"),
-                    generateBritishAudioURL("How can we get to the MTR station")
-                ],
-                "sentence13": [
-                    generateBritishAudioURL("Walk along"),
-                    generateBritishAudioURL("Prince Edward Street"),
-                    generateBritishAudioURL("Walk along Prince Edward Street")
-                ],
-                "sentence14": [
-                    generateBritishAudioURL("Go past"),
-                    generateBritishAudioURL("the police station"),
-                    generateBritishAudioURL("Go past the police station")
-                ],
-                "sentence15": [
-                    generateBritishAudioURL("Walk across"),
-                    generateBritishAudioURL("the footbridge"),
-                    generateBritishAudioURL("Walk across the footbridge")
-                ],
-                "sentence16": [
-                    generateBritishAudioURL("The MTR Station is"),
-                    generateBritishAudioURL("in front of you"),
-                    generateBritishAudioURL("The MTR Station is in front of you")
-                ],
-                "sentence17": [
-                    generateBritishAudioURL("Could you please tell me"),
-                    generateBritishAudioURL("the way to the sports centre"),
-                    generateBritishAudioURL("Could you please tell me the way to the sports centre")
-                ],
-                "sentence18": [
-                    generateBritishAudioURL("The sports centre"),
-                    generateBritishAudioURL("is on your left"),
-                    generateBritishAudioURL("The sports centre is on your left")
-                ]
-            }
+            ]
         };
 
         // === 全局變量和實例 ===
@@ -1715,7 +1659,7 @@
         function initSlowAudioIndex() {
             appData.sentences.forEach(sentence => {
                 const audioKey = sentence.audio;
-                if (appData.slow_audio_files && appData.slow_audio_files[audioKey]) {
+                if (audioPlayer.slowAudioPaths && audioPlayer.slowAudioPaths[audioKey]) {
                     slowAudioCurrentIndex[audioKey] = 0;
                 }
             });
@@ -1735,7 +1679,7 @@
                                 <div class="stars-label" id="${word.id}-label">Click to flip</div>
                             </div>
                             <div class="audio-buttons">
-                                <button class="audio-btn" onclick="audioPlayer.playAudio('${word.audio}', this, event)">
+                                <button class="audio-btn" onclick="audioPlayer.playAudio('${word.audio}', this, event)" data-text="${word.english}">
                                     <i class="fas fa-volume-up"></i>
                                 </button>
                             </div>
@@ -1764,7 +1708,7 @@
         // 生成句子卡片
         function generateSentenceCard(sentence, index) {
             const number = `Sentence ${index + 1}`;
-            const hasSlowAudio = appData.slow_audio_files && appData.slow_audio_files[sentence.audio];
+            const hasSlowAudio = audioPlayer.slowAudioPaths && audioPlayer.slowAudioPaths[sentence.audio];
             
             return `
                 <div class="card-container sentence-card">
@@ -1776,11 +1720,11 @@
                                 <div class="stars-label" id="${sentence.id}-label">Click to flip</div>
                             </div>
                             <div class="audio-buttons">
-                                <button class="audio-btn" onclick="audioPlayer.playAudio('${sentence.audio}', this, event)">
+                                <button class="audio-btn" onclick="audioPlayer.playAudio('${sentence.audio}', this, event)" data-text="${sentence.english}">
                                     <i class="fas fa-volume-up"></i>
                                 </button>
                                 ${hasSlowAudio ? `
-                                <button class="audio-btn slow-btn" onclick="audioPlayer.playSequentialSlowAudio('${sentence.audio}', this, event)">
+                                <button class="audio-btn slow-btn" onclick="audioPlayer.playSequentialSlowAudio('${sentence.audio}', this, event)" data-text="${sentence.english}">
                                     <i class="fas fa-play"></i>
                                 </button>
                                 ` : ''}
@@ -2234,7 +2178,22 @@
             
             // 初始化頁面
             initPage();
+            
+            // 確保 Speech Synthesis API 可用
+            if (!('speechSynthesis' in window)) {
+                console.warn('Speech Synthesis API 不支持，將無法使用語音功能');
+                // 可以顯示一個提示給用戶
+                const warning = document.createElement('div');
+                warning.style.cssText = 'background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin: 10px 0; text-align: center;';
+                warning.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 您的瀏覽器不支持語音功能，部分功能可能受限';
+                document.querySelector('.header').after(warning);
+            }
         });
+        
+        // 確保語音列表加載完成
+        speechSynthesis.onvoiceschanged = function() {
+            console.log('語音列表已加載');
+        };
     </script>
 </body>
 </html>
